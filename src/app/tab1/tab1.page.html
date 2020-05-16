@@ -18,14 +18,17 @@
         <ion-row>
           <ion-col>
             <div>
-              Note Moyenne : <span *ngFor="let a of etoiles"><ion-icon name="star" slot="end"></ion-icon></span>
+              Note Moyenne : 
+              <span *ngFor="let a of etoiles">
+                <ion-icon name="star" slot="end"></ion-icon>
+              </span>
             </div>
           </ion-col>
         </ion-row>
       <ion-row>
         <ion-col offset="7">
           <div>
-            <ion-button fill="outline" slot="end">Profile</ion-button>
+            <ion-button fill="outline" slot="end" routerLink="/tabs/tab3">Profile</ion-button>
           </div>
         </ion-col>
       </ion-row>
@@ -38,7 +41,7 @@
       <ion-col size="6">
         <div>
           <ion-card>
-            <ion-item href="#">
+            <ion-item routerLink="/tabs/tab2">
               <ion-label>
                 <ion-icon name="construct-outline" slot="end"></ion-icon> <br>
                 Commandes <br> en cours de <br> traitement 
@@ -50,7 +53,7 @@
       <ion-col size="6">
         <div>
           <ion-card>
-            <ion-item href="#">
+            <ion-item routerLink="/historique">
               <ion-label>
                 <ion-icon name="reload-outline" slot="end"></ion-icon> <br>
                 Historique <br> de mes <br> livraisons 

@@ -1,20 +1,18 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-button slot="start" fill="clear" routerLink="/tabs/tab1">
-      <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
-    </ion-button>
-    <ion-title>
-      Commandes en cours <br> de traitement
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historique de mes <br> livraisons</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
- 
+<ion-content>
+
   <ion-card>
     <ion-item color="primary">
-      <ion-icon name="location-outline" slot="start"></ion-icon>
-      <ion-label >Rue 9 avril bouhsina  <br> Sousse</ion-label>
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-label >26 Janvier 2020</ion-label>
     </ion-item>
     <ion-card-content>
       <ion-grid class="ion-no-padding">
@@ -22,8 +20,18 @@
         <ion-col>
           <div>
             <ion-item  lines="none">
-              <ion-icon name="time-outline" slot="start"></ion-icon>              
-              <ion-label>15H</ion-label>
+              <ion-icon name="stopwatch-outline" slot="start"></ion-icon>              
+              <ion-label>Heure estimée : 15:00</ion-label>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div >
+            <ion-item lines="none">
+              <ion-icon name="time-outline" slot="start"></ion-icon>
+              <ion-label>Heure réelle : 14:50</ion-label>
             </ion-item>
           </div>
         </ion-col>
@@ -33,17 +41,7 @@
           <div >
             <ion-item lines="none">
               <ion-icon name="person-outline" slot="start"></ion-icon>
-              <ion-label>Moez Baccouche</ion-label>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div >
-            <ion-item lines="none">
-              <ion-icon name="car-outline" slot="start"></ion-icon>
-              <ion-label >15 Km</ion-label>
+              <ion-label >Moez Baccouche</ion-label>
             </ion-item>
           </div>
         </ion-col>
@@ -52,7 +50,7 @@
         <ion-col offset="8">
           <div>
             <ion-item lines="none">
-              <ion-button fill="outline">Détails</ion-button>
+              <ion-button fill="outline" routerLink="/history-details">Détails</ion-button>
             </ion-item>
           </div>
         </ion-col>
@@ -60,5 +58,5 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  
+
 </ion-content>
