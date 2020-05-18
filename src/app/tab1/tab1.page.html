@@ -8,10 +8,27 @@
 
 <ion-content >
   <ion-card>
-    <ion-item >
-      <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-label color="primary">Mehdi Moujahed</ion-label>
-    </ion-item>
+      <ion-grid >
+        <ion-row style="padding-left: 3px;">
+          <ion-col size="3">
+            <div>
+            <img
+              src="../../assets/Moez.jpg"
+              alt="Img Livreur"
+              class="imgCircle"
+            />
+          </div>
+          </ion-col>
+          <ion-col size="9" pull="0.7">
+            <ion-item>
+          <div>
+            <span color="primary">Moez Baccouche</span>
+          </div>
+        </ion-item>
+          </ion-col>
+          </ion-row>
+          </ion-grid>
+  
   
     <ion-card-content>
       <ion-grid>
@@ -41,11 +58,11 @@
       <ion-col size="6">
         <div>
           <ion-card>
-            <ion-item routerLink="/tabs/tab2">
-              <ion-label>
+            <ion-item routerLink="/tabs/tab2" >
+              <span > 
                 <ion-icon name="construct-outline" slot="end"></ion-icon> <br>
                 Commandes <br> en cours de <br> traitement 
-              </ion-label>
+              </span>
             </ion-item>
           </ion-card>          
         </div>
@@ -54,10 +71,10 @@
         <div>
           <ion-card>
             <ion-item routerLink="/historique">
-              <ion-label>
+              <span>
                 <ion-icon name="reload-outline" slot="end"></ion-icon> <br>
                 Historique <br> de mes <br> livraisons 
-              </ion-label>
+              </span>
             </ion-item>
           </ion-card> 
         </div>
@@ -68,7 +85,7 @@
   <ion-card>
     <ion-item href="#" >
       <ion-icon name="hourglass-outline" slot="start"></ion-icon>
-      <ion-label>Commandes en attente</ion-label>
+      <span>Commandes en attente</span>
     </ion-item>
     </ion-card>
   
