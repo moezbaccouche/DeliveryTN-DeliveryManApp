@@ -29,7 +29,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "waiting-orders-details",
+    path: "waiting-orders-details/:id",
     loadChildren: () =>
       import("./waiting-orders-details/waiting-orders-details.module").then(
         (m) => m.WaitingOrdersDetailsPageModule

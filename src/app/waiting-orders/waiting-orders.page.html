@@ -88,7 +88,7 @@
                 <ion-button
                   class="btDetails"
                   fill="clear"
-                  routerLink="/waiting-orders-details"
+                  [routerLink]="['/waiting-orders-details', order.orderId]"
                 >
                   Détails
                 </ion-button>

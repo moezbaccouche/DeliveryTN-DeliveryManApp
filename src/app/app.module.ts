@@ -17,6 +17,7 @@ import localeFr from "@angular/common/locales/fr";
 import { PopoverClientProfileComponent } from "./components/popover-client-profile/popover-client-profile.component";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
+import { DeliveryInfoService } from "./services/delivery-info.service";
 
 registerLocaleData(localeFr, "en");
 
@@ -37,6 +38,7 @@ registerLocaleData(localeFr, "en");
     OrderService,
     Geolocation,
     LaunchNavigator,
+    DeliveryInfoService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

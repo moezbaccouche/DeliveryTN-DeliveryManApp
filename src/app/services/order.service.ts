@@ -42,4 +42,8 @@ export class OrderService {
         };
     });
   }
+
+  getPendingOrderDetails(orderId) {
+    return this.http.get(`${this.baseUrl}/details/${orderId}`);
+  }
 }
