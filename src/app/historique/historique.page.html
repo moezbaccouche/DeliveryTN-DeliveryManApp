@@ -3,60 +3,98 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title >Historique de <br> mes livraisons</ion-title>
+    <ion-title>Mes livraisons</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div>
+    <ion-spinner
+      style="text-align: center;"
+      [class]="isLoading ? 'loadingSpinner' : 'stoppedSpinner'"
+    >
+    </ion-spinner>
+  </div>
 
-  <ion-card>
-    <ion-item color="primary">
-      <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-label >26 Janvier 2020</ion-label>
+  <ion-card *ngFor="let order of myDeliveredOrders">
+    <ion-item style="--background: rgb(117, 39, 46); color: white;">
+      <ion-icon
+        style="color: white;"
+        name="calendar-outline"
+        slot="start"
+      ></ion-icon>
+      <ion-label
+        >{{ order.realDeliveryTime | date:"dd MMMM yyyy" | titlecase
+        }}</ion-label
+      >
     </ion-item>
     <ion-card-content>
       <ion-grid class="ion-no-padding">
         <ion-row>
-        <ion-col>
-          <div>
-            <ion-item class="ion-no-padding" lines="none">
-              <ion-icon name="stopwatch-outline" slot="start"></ion-icon>              
-              <span>Heure estimée : 15:00</span>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div >
-            <ion-item class="ion-no-padding" lines="none">
-              <ion-icon name="time-outline" slot="start"></ion-icon>
-              <span>Heure réelle : 14:50</span>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div >
-            <ion-item class="ion-no-padding" lines="none">
-              <ion-icon name="person-outline" slot="start"></ion-icon>
-              <span >Moez Baccouche</span>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset="8">
-          <div>
-            <ion-item lines="none">
-              <ion-button fill="outline" routerLink="/history-details">Détails</ion-button>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
+          <ion-col>
+            <div>
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-icon name="stopwatch-outline" slot="start"></ion-icon>
+                <span
+                  >Heure estimée :
+                  <strong
+                    >{{ order.estimatedDeliveryTime | date:"HH:mm"}}</strong
+                  ></span
+                >
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div>
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-icon name="time-outline" slot="start"></ion-icon>
+                <span
+                  >Heure réelle :
+                  <strong
+                    >{{ order.realDeliveryTime | date:"HH:mm"}}</strong
+                  ></span
+                >
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div>
+              <ion-item class="ion-no-padding" lines="none">
+                <img
+                  class="avatarImg circleImg"
+                  src="../../assets/Moez.jpg"
+                  alt=""
+                  (click)="presentPopoverClientProfile(order.clientId)"
+                />
+                <span
+                  (click)="presentPopoverClientProfile(order.clientId)"
+                  style="margin-left: 22px;"
+                  >{{ order.clientName }}</span
+                >
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="7">
+            <div>
+              <ion-item lines="none">
+                <ion-button
+                  class="btDetails"
+                  fill="outline"
+                  size="medium"
+                  routerLink="/history-details"
+                  >Détails</ion-button
+                >
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

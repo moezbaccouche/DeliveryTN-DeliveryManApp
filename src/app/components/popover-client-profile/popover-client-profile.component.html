@@ -1,0 +1,37 @@
+<div class="header">
+  <div class="space-between"></div>
+</div>
+
+<div class="flex">
+  <div class="border-blue">
+    <div class="border-white">
+      <div class="img-box">
+        <img src="../../../assets/Moez.jpg" tappable />
+      </div>
+    </div>
+  </div>
+</div>
+
+<ion-grid>
+  <ion-row>
+    <ion-col style="text-align: center;"
+      ><h2>{{ client.firstName }} {{ client.lastName }}</h2></ion-col
+    >
+  </ion-row>
+  <ion-row style="font-size: 14px;">
+    <ion-col>
+      <span><strong>Téléphone</strong></span>
+    </ion-col>
+    <ion-col style="text-align: end;">
+      <span>{{ client.phone }}</span>
+    </ion-col>
+  </ion-row>
+  <ion-row style="font-size: 14px;">
+    <ion-col>
+      <span><strong>E-Mail</strong></span>
+    </ion-col>
+    <ion-col style="text-align: end;">
+      <span>{{ client.email }}</span>
+    </ion-col>
+  </ion-row>
+</ion-grid>

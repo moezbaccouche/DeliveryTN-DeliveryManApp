@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,11 +25,34 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-ion-card, ion-item{
-    --background : #fafafa;
+ion-card,
+ion-item {
+  --background: #fafafa;
 }
 
-ion-title{
-    font-size: 12px;
-  }
-  
+.loadingSpinner {
+  display: block;
+}
+
+.stoppedSpinner {
+  display: none;
+}
+
+.toast {
+  --border-radius: 20px;
+}
+
+ion-spinner {
+  display: block;
+  margin: auto;
+  --color: rgb(117, 39, 46);
+}
+
+.avatarImg {
+  height: 32px;
+  width: 32px;
+}
+
+.circleImg {
+  border-radius: 50%;
+}
