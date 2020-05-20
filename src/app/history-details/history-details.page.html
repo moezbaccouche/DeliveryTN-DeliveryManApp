@@ -1,83 +1,90 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button ></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Détails historique</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item-divider>
-    <ion-label class="dividerLabels">
-      <strong><span>Produits</span></strong>
-    </ion-label>
-  </ion-item-divider>
-  <div >
-    <ion-grid>
-      <ion-row class="ion-float-left">
-        <ion-col size="4">
-          <img
-            src="../../assets/lait.jpg"
-            alt="Img"
-          />
-        </ion-col>
-        <ion-col size="8">
-          <ion-grid class="ion-no-padding">
-            <ion-row>
-              <ion-col class="ion-no-padding"
-                ><span style="font-size: 12px;"
-                  >Lait Délice 1L</span
-                ></ion-col
-              >
-            </ion-row>
-            <ion-row class="ion-align-items-center">
-              <ion-col size="12" class="ion-no-padding">
-                <span style="font-size: 12px;">x2</span>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <ion-item-divider>
-    <ion-label class="dividerLabels">
-      <strong><span>Prix</span></strong>
-    </ion-label>
-  </ion-item-divider>
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <span class="priceTitles">Prix Article(s)</span>
-        </ion-col>
-        <ion-col size="6" style="text-align: right;">
-          <span class="priceTitles">1.5 DT</span>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <span class="priceTitles">Prix Livraison</span>
-        </ion-col>
-        <ion-col size="6" style="text-align: right;">
-          <span class="priceTitles">5 DT</span>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <span class="dividerLabels">Total</span>
-        </ion-col>
-        <ion-col size="6" style="text-align: right;">
-          <span class="dividerLabels" style="font-size: large;"
-            ><strong
-              >15 DT</strong
-            ></span
-          >
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <ion-spinner
+    [class]="isLoading ? 'loadingSpinner':'stoppedSpinner' "
+  ></ion-spinner>
+
+  <div *ngIf="order != null">
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Produits</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-grid>
+        <ion-row class="ion-float-left" *ngFor="let product of order.products">
+          <ion-col size="4">
+            <img
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+product.imageBase64)"
+              alt="Img"
+            />
+          </ion-col>
+          <ion-col size="8">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col class="ion-no-padding"
+                  ><span style="font-size: 12px;"
+                    >{{ product.name }}</span
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row class="ion-align-items-center">
+                <ion-col size="12" class="ion-no-padding">
+                  <span style="font-size: 12px;"
+                    ><strong>x{{ product.amount }}</strong></span
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Prix</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <span class="priceTitles">Prix Article(s)</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="priceTitles">{{ order.orderPrice }} DT</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <span class="priceTitles">Prix Livraison</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="priceTitles">{{ order.deliveryPrice }} DT</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <span class="dividerLabels">Total</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="dividerLabels" style="font-size: large;"
+              ><strong
+                >{{ order.orderPrice + order.deliveryPrice }} DT</strong
+              ></span
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
     <ion-item-divider>
       <ion-label class="dividerLabels">
         <strong><span>Client</span></strong>
@@ -86,21 +93,23 @@
     <div>
       <ion-grid>
         <ion-row class="ion-align-items-center">
-          <ion-col size="2">
+          <ion-col style="padding-right: 0px;" size="2">
             <img
-              src="../../assets/Moez.jpg"
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.clientPicture)"
               alt="Img Livreur"
-              height="50"
-              width="50"
-              class="imgCircle"
+              height="42"
+              width="42"
+              class="circleImg"
+              (click)="presentPopoverClientProfile(order.clientId)"
             />
           </ion-col>
-          <ion-col size="10">
-            <ion-item lines="none" style="--background: white;"
-              >Mehdi Moujahed
-            </ion-item>
+          <ion-col size="10" style="text-align: left; padding-left: 10px;">
+            <span (click)="presentPopoverClientProfile(order.clientId)"
+              >{{ order.clientName }}</span
+            >
           </ion-col>
         </ion-row>
       </ion-grid>
     </div>
+  </div>
 </ion-content>

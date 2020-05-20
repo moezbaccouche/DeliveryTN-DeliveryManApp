@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ClientService } from "src/app/services/client.service";
 import { ToastController } from "@ionic/angular";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-popover-client-profile",
@@ -23,7 +24,8 @@ export class PopoverClientProfileComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private domSanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {

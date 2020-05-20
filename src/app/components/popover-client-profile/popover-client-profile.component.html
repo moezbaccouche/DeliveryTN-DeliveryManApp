@@ -6,7 +6,14 @@
   <div class="border-blue">
     <div class="border-white">
       <div class="img-box">
-        <img src="../../../assets/Moez.jpg" tappable />
+        <img
+          [src]="
+            domSanitizer.bypassSecurityTrustUrl(
+              'data:image/jpg;base64,' + client.imageBase64
+            )
+          "
+          tappable
+        />
       </div>
     </div>
   </div>

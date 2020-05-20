@@ -87,7 +87,7 @@
                   class="btDetails"
                   fill="outline"
                   size="medium"
-                  routerLink="/history-details"
+                  [routerLink]="['/history-details', order.orderId]"
                   >Détails</ion-button
                 >
               </ion-item>

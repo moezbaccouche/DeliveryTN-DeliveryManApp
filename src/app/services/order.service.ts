@@ -12,4 +12,8 @@ export class OrderService {
   getMyDeliveredOrders(deliveryManId) {
     return this.http.get(`${this.baseUrl}/deliveryMan/${deliveryManId}`);
   }
+
+  getOrderDetails(orderId) {
+    return this.http.get(`${this.baseUrl}/history/${orderId}`);
+  }
 }
