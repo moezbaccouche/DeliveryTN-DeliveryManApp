@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { OrderService } from "../services/order.service";
 import { ToastController, PopoverController } from "@ionic/angular";
 import { PopoverClientProfileComponent } from "../components/popover-client-profile/popover-client-profile.component";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-historique",
@@ -19,7 +20,8 @@ export class HistoriquePage implements OnInit {
   constructor(
     private orderService: OrderService,
     private toastController: ToastController,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private domSanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
