@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Commandes en attente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-item color="primary">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label >Rue 9 avril bouhsina  <br> Sousse</ion-label>
+    </ion-item>
+    <ion-card-content>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col>
+            <div>
+              <ion-item  lines="none">
+                <ion-icon name="calendar-outline" slot="start"></ion-icon>              
+                <ion-label>25 Mai 2020</ion-label>
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+        <ion-col>
+          <div>
+            <ion-item  lines="none">
+              <ion-icon name="time-outline" slot="start"></ion-icon>              
+              <ion-label>15:00</ion-label>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-align-items-center" style="margin-left: 8px;">
+        <ion-col size="2" >
+          <img
+            src="../../assets/Moez.jpg"
+            alt="Img Client"
+            height="45"
+            width="45"
+            class="imgCircle"
+          />
+        </ion-col>
+        <ion-col size="10">
+          <ion-item   lines="none">
+            <ion-label>Moez Baccouche</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div>
+            <ion-item  lines="none">
+            <ion-button fill="outline" class="btKm">15 Km</ion-button>
+            <ion-icon name="map-outline" style="margin-left: 10px;" routerLink="/historique"></ion-icon>
+          </ion-item>
+          </div>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col offset="8">
+          <div>
+            <ion-item lines="none">
+              <ion-button fill="outline" routerLink="/waiting-orders-details">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </ion-button>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content>

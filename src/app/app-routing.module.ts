@@ -12,6 +12,14 @@ const routes: Routes = [
   {
     path: 'history-details',
     loadChildren: () => import('./history-details/history-details.module').then( m => m.HistoryDetailsPageModule)
+  },
+  {
+    path: 'waiting-orders',
+    loadChildren: () => import('./waiting-orders/waiting-orders.module').then( m => m.WaitingOrdersPageModule)
+  },
+  {
+    path: 'waiting-orders-details',
+    loadChildren: () => import('./waiting-orders-details/waiting-orders-details.module').then( m => m.WaitingOrdersDetailsPageModule)
   }
 
 ];

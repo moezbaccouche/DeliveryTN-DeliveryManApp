@@ -1,5 +1,7 @@
 {
   "name": "DeliveryTN-DeliveryManApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

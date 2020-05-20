@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Détails commandes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-divider>
+    <ion-label class="dividerLabels">
+      <strong><span>Produits</span></strong>
+    </ion-label>
+    <ion-button fill="outline" class="btCourses" slot="end">Faire les courses</ion-button>
+
+  </ion-item-divider>
+  <div >
+    <ion-grid>
+      <ion-row class="ion-float-left">
+        <ion-col size="4">
+          <img
+            src="../../assets/lait.jpg"
+            alt="Img"
+          />
+        </ion-col>
+        <ion-col size="8">
+          <ion-grid class="ion-no-padding">
+            <ion-row>
+              <ion-col class="ion-no-padding"
+                ><span style="font-size: 12px;"
+                  >Lait Délice 1L</span
+                ></ion-col
+              >
+            </ion-row>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12" class="ion-no-padding">
+                <span style="font-size: 12px;">x2</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <ion-item-divider>
+    <ion-label class="dividerLabels">
+      <strong><span>Prix</span></strong>
+    </ion-label>
+  </ion-item-divider>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <span class="priceTitles">Prix Article(s)</span>
+        </ion-col>
+        <ion-col size="6" style="text-align: right;">
+          <span class="priceTitles">1.5 DT</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <span class="priceTitles">Prix Livraison</span>
+        </ion-col>
+        <ion-col size="6" style="text-align: right;">
+          <span class="priceTitles">5 DT</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <span class="dividerLabels">Total</span>
+        </ion-col>
+        <ion-col size="6" style="text-align: right;">
+          <span class="dividerLabels" style="font-size: large;"
+            ><strong
+              >15 DT</strong
+            ></span
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Infos Livraison</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="2">
+            <img
+              src="../../assets/Moez.jpg"
+              alt="Img Livreur"
+              height="50"
+              width="50"
+              class="imgCircle"
+            />
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none" style="--background: white;"><span 
+              >Moez Baccouche <br> 24323572</span
+            ><ion-icon name="call-outline" slot="end" style="color: #69bb7b;" (click)="lol()"></ion-icon>
+          </ion-item>
+            
+            
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+</ion-content>
