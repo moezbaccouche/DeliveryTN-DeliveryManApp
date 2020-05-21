@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+      <ion-title>Récapitulatif commande</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner
+    [class]="isLoading ? 'loadingSpinner' : 'stoppedSpinner'"
+  ></ion-spinner>
+  <div *ngIf="order != null">
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Produits</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-grid>
+        <ion-row class="ion-float-left" *ngFor="let product of order.products">
+          <ion-col size="4">
+            <img
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+product.imageBase64)"
+              alt="Img"
+            />
+          </ion-col>
+          <ion-col size="8">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col class="ion-no-padding"
+                  ><span style="font-size: 12px;"
+                    >{{ product.name }}</span
+                  ></ion-col
+                >
+              </ion-row>
+              <ion-row class="ion-align-items-center">
+                <ion-col size="12" class="ion-no-padding">
+                  <span style="font-size: 12px;"
+                    ><strong>x{{ product.amount }}</strong></span
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Prix</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <span class="priceTitles">Prix Article(s)</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="priceTitles">{{ order.orderPrice}} DT</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <span class="priceTitles">Prix Livraison</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="priceTitles">{{ order.deliveryPrice }} DT</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <span class="dividerLabels">Total</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <span class="dividerLabels" style="font-size: large;"
+              ><strong
+                >{{ order.orderPrice + order.deliveryPrice }} DT</strong
+              ></span
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ion-item-divider>
+      <ion-label class="dividerLabels">
+        <strong><span>Client</span></strong>
+      </ion-label>
+    </ion-item-divider>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <img
+            [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
+            alt="Img Livreur"
+            class="avatarImg circleImg"
+          />
+        </ion-col>
+        <ion-col size="10">
+          <span>{{ order.client.fullName }}</span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <ion-button fill="outline" class="btSignature">
+            Signature
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

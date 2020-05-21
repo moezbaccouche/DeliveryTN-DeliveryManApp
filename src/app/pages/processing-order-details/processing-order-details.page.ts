@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order.service";
 import { ToastController, PopoverController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -45,7 +45,8 @@ export class ProcessingOrderDetailsPage implements OnInit {
     private callNumber: CallNumber,
     private geolocation: Geolocation,
     private deliveryInfoService: DeliveryInfoService,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private router: Router
   ) {
     mapboxgl.accessToken = mapToken;
   }
@@ -222,6 +223,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
 
   completeDelivery() {
     //Navigate to summary page
+    this.router.navigate(["/order-summary", this.orderId]);
   }
 
   editNbBoughtProducts(e) {

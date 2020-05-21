@@ -42,6 +42,13 @@ const routes: Routes = [
         "./pages/processing-order-details/processing-order-details.module"
       ).then((m) => m.ProcessingOrderDetailsPageModule),
   },
+  {
+    path: "order-summary/:id",
+    loadChildren: () =>
+      import("./pages/order-summary/order-summary.module").then(
+        (m) => m.OrderSummaryPageModule
+      ),
+  },
 ];
 @NgModule({
   imports: [
