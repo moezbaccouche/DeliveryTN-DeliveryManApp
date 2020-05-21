@@ -59,49 +59,14 @@
         </ion-row>
         <ion-row>
           <ion-col size="12" style="text-align: end;">
-            <ion-button class="btDetails" fill="outline">Détails</ion-button>
+            <ion-button
+              [routerLink]="['/processing-order-details', order.id]"
+              class="btDetails"
+              fill="outline"
+              >Détails</ion-button
+            >
           </ion-col>
         </ion-row>
-
-        <!-- <ion-row>
-          <ion-col>
-            <div>
-              <ion-item lines="none">
-                <ion-icon name="time-outline" slot="start"></ion-icon>
-                <ion-label>{{ order.orderTime | date:"HH:mm" }}</ion-label>
-              </ion-item>
-            </div>
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-center" style="margin-left: 8px;">
-          <ion-col size="2">
-            <img
-              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
-              alt="Img Client"
-              height="37"
-              width="37"
-              class="circleImg"
-            />
-          </ion-col>
-          <ion-col size="10">
-            <ion-item lines="none">
-              <ion-label style="margin-left: 10px;"
-                >{{ order.client.fullName }}</ion-label
-              >
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col offset="8">
-            <div>
-              <ion-item lines="none">
-                <ion-button class="btDetails" fill="outline"
-                  >Détails</ion-button
-                >
-              </ion-item>
-            </div>
-          </ion-col>
-        </ion-row> -->
       </ion-grid>
     </ion-card-content>
   </ion-card>

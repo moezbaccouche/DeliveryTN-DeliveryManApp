@@ -18,12 +18,20 @@ import { PopoverClientProfileComponent } from "./components/popover-client-profi
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 import { DeliveryInfoService } from "./services/delivery-info.service";
+import { PopoverMissingProductsComponent } from "./components/popover-missing-products/popover-missing-products.component";
 
 registerLocaleData(localeFr, "en");
 
 @NgModule({
-  declarations: [AppComponent, PopoverClientProfileComponent],
-  entryComponents: [PopoverClientProfileComponent],
+  declarations: [
+    AppComponent,
+    PopoverClientProfileComponent,
+    PopoverMissingProductsComponent,
+  ],
+  entryComponents: [
+    PopoverClientProfileComponent,
+    PopoverMissingProductsComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,

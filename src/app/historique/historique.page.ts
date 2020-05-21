@@ -25,20 +25,26 @@ export class HistoriquePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.myDeliveredOrdersSub = this.orderService
-      .getMyDeliveredOrders(this.deliveryManId)
-      .subscribe(
-        (response: any) => {
-          this.isLoading = false;
-          console.log(response);
-          this.myDeliveredOrders = response;
-        },
-        (error) => {
-          console.log(error);
-          this.isLoading = true;
-          this.presentToast("Une erreur est survenue !", "danger");
-        }
-      );
+    this.getMyDeliveredOrders();
+
+    this.myDeliveredOrdersSub = this.orderService.myDeliveredOrdersSubject.subscribe(
+      (orders: any[]) => {
+        this.myDeliveredOrders = orders;
+      }
+    );
+    this.orderService.emitMyDeliveredOrdersSubject();
+  }
+
+  getMyDeliveredOrders() {
+    this.orderService.getMyDeliveredOrders(this.deliveryManId).then(
+      () => {
+        this.isLoading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.presentToast("Une erreur est survenue !", "danger");
+      }
+    );
   }
 
   async presentToast(msg: string, type: string) {

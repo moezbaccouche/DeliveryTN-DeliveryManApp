@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Subject } from "rxjs";
 
 @Injectable({
@@ -10,9 +10,11 @@ export class OrderService {
 
   private pendingOrders: any[] = [];
   private processingOrders: any[] = [];
+  private myDeliveredOrders: any[] = [];
 
   pendingOrdersSubject = new Subject<any[]>();
   processingOrdersSubject = new Subject<any[]>();
+  myDeliveredOrdersSubject = new Subject<any[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -24,8 +26,27 @@ export class OrderService {
     this.processingOrdersSubject.next(this.processingOrders.slice());
   }
 
+  emitMyDeliveredOrdersSubject() {
+    this.processingOrdersSubject.next(this.myDeliveredOrders.slice());
+  }
+
   getMyDeliveredOrders(deliveryManId) {
-    return this.http.get(`${this.baseUrl}/deliveryMan/${deliveryManId}`);
+    return new Promise((resolve, reject) => {
+      fetch(`${this.baseUrl}/deliveryMan/${deliveryManId}`)
+        .then((response: any) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.myDeliveredOrders = data;
+          this.emitMyDeliveredOrdersSubject();
+          resolve("Commandes récuperées avec succès !");
+        }),
+        (error) => {
+          reject(error);
+        };
+    });
+
+    // return this.http.get(`${this.baseUrl}/deliveryMan/${deliveryManId}`);
   }
 
   getOrderDetails(orderId) {
@@ -72,5 +93,62 @@ export class OrderService {
 
   getProcessingOrderDetails(orderId) {
     return this.http.get(`${this.baseUrl}/processing/details/${orderId}`);
+  }
+
+  deliverOrder(orderId, newStatus) {
+    let httpHeaders = new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    });
+    let options = {
+      headers: httpHeaders,
+    };
+
+    return this.http.post(
+      `${this.baseUrl}/deliverOrder`,
+      {
+        idOrder: orderId,
+        newStatus: newStatus,
+      },
+      options
+    );
+
+    // return new Promise((resolve, reject) => {
+    //   fetch(`${this.baseUrl}/deliverOrder`, {
+    //     method: "post",
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       IdOrder: orderId,
+    //       newStatus: newStatus,
+    //     }),
+    //   }).then((data) => {
+    //     resolve(data);
+    //   }),
+    //     (error) => {
+    //       reject(error);
+    //     };
+    // });
+  }
+
+  completeDelivery(orderId, newStatus) {
+    return fetch(`${this.baseUrl}/update`, {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        IdOrder: orderId,
+        newStatus: newStatus,
+      }),
+    })
+      .then((response) => {
+        this.myDeliveredOrders.push(response);
+        this.emitMyDeliveredOrdersSubject();
+      })
+      .catch((error) => console.error(error));
   }
 }

@@ -1,0 +1,37 @@
+.map {
+  height: 150px;
+}
+
+hr {
+  margin: 10px;
+  background: #d8d8d8;
+}
+
+.productCheckbox {
+  --border-radius: 50%;
+  --background-checked: rgb(117, 39, 46);
+  --checkmark-color: white;
+  --border-color-checked: rgb(117, 39, 46);
+  --background: white;
+  --border-color: rgb(117, 39, 46);
+}
+
+.showProducts {
+  display: inherit;
+}
+
+.hideProducts {
+  display: none;
+}
+
+.btnDeliver {
+  text-transform: none;
+  --border-color: rgb(117, 39, 46);
+  --color: rgb(117, 39, 46);
+}
+
+.btnNavigate {
+  text-transform: none;
+  --border-color: rgb(117, 39, 46);
+  --color: rgb(117, 39, 46);
+}
