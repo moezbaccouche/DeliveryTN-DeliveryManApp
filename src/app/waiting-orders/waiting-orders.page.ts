@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { ToastController } from "@ionic/angular";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-waiting-orders",
@@ -17,7 +18,8 @@ export class WaitingOrdersPage implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
     private toastController: ToastController,
-    private launchNavigator: LaunchNavigator
+    private launchNavigator: LaunchNavigator,
+    private domSanitizer: DomSanitizer
   ) {}
 
   pendingOrdersSubscription: Subscription;

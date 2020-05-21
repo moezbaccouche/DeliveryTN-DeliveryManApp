@@ -1,7 +1,13 @@
 .btKm {
-    text-transform: none;
-    --color: white;
-    --border-color: #3880ff;
-    font-size: 14px;
-    background: #3880ff;
-  }
+  text-transform: none;
+  --color: white;
+  --border-color: #3880ff;
+  font-size: 14px;
+  background: #3880ff;
+}
+
+.btDetails {
+  text-transform: none;
+  --border-color: rgb(117, 39, 46);
+  --color: rgb(117, 39, 46);
+}

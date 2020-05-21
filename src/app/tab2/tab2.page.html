@@ -1,67 +1,129 @@
-<ion-header >
+<ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
-    </ion-buttons>
-    <ion-title >
-      Commandes en <br>cours de traitement
+    <ion-title style="font-size: 13px;">
+      Commandes en cours de traitement
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
- 
-  <ion-card>
-    <ion-item color="primary">
-      <ion-icon name="location-outline" slot="start"></ion-icon>
-      <ion-label >Rue 9 avril bouhsina  <br> Sousse</ion-label>
+<ion-content *ngIf="processingOrders.length != 0; else noProcessingOrders">
+  <ion-spinner
+    [class]="isLoading ? 'loadingSpinner':'stoppedSpinner'"
+  ></ion-spinner>
+
+  <ion-card *ngFor="let order of processingOrders">
+    <ion-item style="--background: rgb(117, 39, 46); --color: white;">
+      <ion-icon style="color: white;" name="location-outline"></ion-icon>
+      <ion-label style="font-size: 12px; text-align: center;"
+        >{{ order.client.location.address }}, {{ order.client.location.city
+        }}</ion-label
+      >
     </ion-item>
     <ion-card-content>
       <ion-grid class="ion-no-padding">
         <ion-row>
-        <ion-col>
-          <div>
-            <ion-item  lines="none">
-              <ion-icon name="time-outline" slot="start"></ion-icon>              
-              <ion-label>15H</ion-label>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div >
+          <ion-col size="12" style="text-align: end; font-style: italic;">
+            {{ order.status }}
+          </ion-col>
+        </ion-row>
+
+        <ion-row style="margin-top: 15px; color: #151a21;">
+          <ion-col size="6" style="text-align: left;">
+            <span>Heure commande</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <strong>{{ order.orderTime | date:"HH:mm"}}</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row style="color: #151a21;">
+          <ion-col size="6" style="text-align: left;">
+            <span>Arrivée estimée</span>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <strong>{{ order.estimatedDeliveryTime | date:"HH:mm"}}</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center" style="margin-top: 5px;">
+          <ion-col size="2">
+            <img
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
+              alt="Img Client"
+              class="circleImg"
+              height="35"
+              width="35"
+            />
+          </ion-col>
+          <ion-col size="9" style="margin-left: 5px; color: #151a21;">
+            <span><strong>{{ order.client.fullName }}</strong></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" style="text-align: end;">
+            <ion-button class="btDetails" fill="outline">Détails</ion-button>
+          </ion-col>
+        </ion-row>
+
+        <!-- <ion-row>
+          <ion-col>
+            <div>
+              <ion-item lines="none">
+                <ion-icon name="time-outline" slot="start"></ion-icon>
+                <ion-label>{{ order.orderTime | date:"HH:mm" }}</ion-label>
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center" style="margin-left: 8px;">
+          <ion-col size="2">
+            <img
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
+              alt="Img Client"
+              height="37"
+              width="37"
+              class="circleImg"
+            />
+          </ion-col>
+          <ion-col size="10">
             <ion-item lines="none">
-              <ion-icon name="person-outline" slot="start"></ion-icon>
-              <ion-label>Moez Baccouche</ion-label>
+              <ion-label style="margin-left: 10px;"
+                >{{ order.client.fullName }}</ion-label
+              >
             </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div >
-            <ion-item lines="none">
-            <ion-button fill="outline" class="btKm">15 Km</ion-button>
-          </ion-item>
-           <!--<ion-item lines="none">
-              <ion-icon name="car-outline" slot="start"></ion-icon>
-              <ion-label >15 Km</ion-label>
-            </ion-item>--> 
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset="8">
-          <div>
-            <ion-item lines="none">
-              <ion-button fill="outline">Détails</ion-button>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col offset="8">
+            <div>
+              <ion-item lines="none">
+                <ion-button class="btDetails" fill="outline"
+                  >Détails</ion-button
+                >
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row> -->
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  
+
+  <ng-template #noProcessingOrders>
+    <ion-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" style="text-align: center; margin-top: 40%;">
+            <img
+              width="100"
+              height="100"
+              src="../../assets/logos/empty-transparent.png"
+              alt="EmptyList"
+            />
+            <br />
+            <span style="color: #b6b6b6; font-style: italic;"
+              >Aucune commande en cours de traitement !</span
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  </ng-template>
 </ion-content>

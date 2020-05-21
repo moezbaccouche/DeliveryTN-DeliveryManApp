@@ -9,13 +9,19 @@ export class OrderService {
   private baseUrl: string = "http://192.168.1.6:51044/delivery-app/orders";
 
   private pendingOrders: any[] = [];
+  private processingOrders: any[] = [];
 
   pendingOrdersSubject = new Subject<any[]>();
+  processingOrdersSubject = new Subject<any[]>();
 
   constructor(private http: HttpClient) {}
 
   emitPendingOrdersSubject() {
     this.pendingOrdersSubject.next(this.pendingOrders.slice());
+  }
+
+  emitProcessingOrdersSubject() {
+    this.processingOrdersSubject.next(this.processingOrders.slice());
   }
 
   getMyDeliveredOrders(deliveryManId) {
@@ -45,5 +51,26 @@ export class OrderService {
 
   getPendingOrderDetails(orderId) {
     return this.http.get(`${this.baseUrl}/details/${orderId}`);
+  }
+
+  getDeliveryManProcessingOrders(deliveryManId) {
+    return new Promise((resolve, reject) => {
+      fetch(`${this.baseUrl}/processing/deliveryMan/${deliveryManId}`)
+        .then((response: any) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.processingOrders = data;
+          this.emitProcessingOrdersSubject();
+          resolve("Commandes récuperées avec succès !");
+        }),
+        (error) => {
+          reject(error);
+        };
+    });
+  }
+
+  getProcessingOrderDetails(orderId) {
+    return this.http.get(`${this.baseUrl}/processing/details/${orderId}`);
   }
 }

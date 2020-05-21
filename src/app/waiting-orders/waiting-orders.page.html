@@ -50,7 +50,7 @@
         <ion-row class="ion-align-items-center" style="margin-left: 8px;">
           <ion-col size="2">
             <img
-              src="../../assets/Moez.jpg"
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
               alt="Img Client"
               height="37"
               width="37"
