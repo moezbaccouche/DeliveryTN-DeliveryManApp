@@ -30,7 +30,7 @@
     "cordova-android": "8.1.0",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-dialogs": "^2.0.2",
-    "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-geolocation": "4.0.2",
     "core-js": "^2.5.4",
     "mapbox-gl": "^1.10.1",
     "rxjs": "~6.5.1",
