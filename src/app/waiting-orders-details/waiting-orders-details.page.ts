@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../services/order.service";
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
 import { mapToken } from "../../assets/mapToken";
@@ -24,7 +24,14 @@ export class WaitingOrdersDetailsPage implements OnInit {
   deliveryManLat;
   deliveryManLng;
   distance = 0;
+
+  //Fixed for 15 minutes in case something goes wrong with the map api
+  duration = 15;
   marker: any;
+
+  buttonDisabled = false;
+  isAccepted = false;
+  deliveryManId = 1;
 
   private map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v11";
@@ -35,7 +42,8 @@ export class WaitingOrdersDetailsPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
     private geolocation: Geolocation,
-    private deliveryInfoService: DeliveryInfoService
+    private deliveryInfoService: DeliveryInfoService,
+    private router: Router
   ) {
     mapboxgl.accessToken = mapToken;
   }
@@ -111,6 +119,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
       (response: any) => {
         this.addRoute(response.routes[0].geometry);
         this.distance = response.routes[0].distance * 0.001;
+        this.duration = response.routes[0].duration / 60;
       },
       (error) => {
         console.log(error);
@@ -157,6 +166,30 @@ export class WaitingOrdersDetailsPage implements OnInit {
     this.marker = new mapboxgl.Marker(el)
       .setLngLat([this.deliveryManLng, this.deliveryManLat])
       .addTo(this.map);
+  }
+
+  onAcceptOrderDelivery() {
+    this.buttonDisabled = true;
+    this.orderService
+      .acceptOrderDelivery(
+        this.orderId,
+        this.deliveryManId,
+        parseFloat(this.duration.toFixed(2))
+      )
+      .then(
+        () => {
+          this.isAccepted = true;
+          this.router.navigate(["/processing-order-details", this.orderId]);
+          this.presentToast(
+            "Vous avez accepté de livrer la commande !",
+            "success"
+          );
+        },
+        (error) => {
+          console.log(error);
+          this.presentToast("Une erreur est survenue !", "danger");
+        }
+      );
   }
 
   async presentToast(msg: string, type: string) {

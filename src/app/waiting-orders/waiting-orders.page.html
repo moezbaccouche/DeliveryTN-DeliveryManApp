@@ -14,89 +14,110 @@
   >
   </ion-spinner>
 
-  <ion-card *ngFor="let order of pendingOrders">
-    <ion-item style="--background: rgb(117, 39, 46); color: white;">
-      <ion-icon style="color: white;" name="location-outline"></ion-icon>
-      <ion-label style="font-size: 12px; text-align: center;"
-        >{{ order.client.location.address }}, {{ order.client.location.city
-        }}</ion-label
-      >
-    </ion-item>
-    <ion-card-content>
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col>
-            <div>
+  <div *ngIf="pendingOrders.length != 0">
+    <ion-card *ngFor="let order of pendingOrders">
+      <ion-item style="--background: rgb(117, 39, 46); color: white;">
+        <ion-icon style="color: white;" name="location-outline"></ion-icon>
+        <ion-label style="font-size: 12px; text-align: center;"
+          >{{ order.client.location.address }}, {{ order.client.location.city
+          }}</ion-label
+        >
+      </ion-item>
+      <ion-card-content>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col>
+              <div>
+                <ion-item lines="none">
+                  <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                  <ion-label
+                    >{{ order.orderTime | date:"dd MMMM yyyy" | titlecase
+                    }}</ion-label
+                  >
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div>
+                <ion-item lines="none">
+                  <ion-icon name="time-outline" slot="start"></ion-icon>
+                  <ion-label>{{ order.orderTime | date:"HH:mm" }}</ion-label>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-align-items-center" style="margin-left: 8px;">
+            <ion-col size="2">
+              <img
+                [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
+                alt="Img Client"
+                height="37"
+                width="37"
+                class="imgCircle"
+              />
+            </ion-col>
+            <ion-col size="10">
               <ion-item lines="none">
-                <ion-icon name="calendar-outline" slot="start"></ion-icon>
-                <ion-label
-                  >{{ order.orderTime | date:"dd MMMM yyyy" | titlecase
-                  }}</ion-label
+                <ion-label style="margin-left: 10px;"
+                  >{{ order.client.fullName }}</ion-label
                 >
               </ion-item>
-            </div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <div>
-              <ion-item lines="none">
-                <ion-icon name="time-outline" slot="start"></ion-icon>
-                <ion-label>{{ order.orderTime | date:"HH:mm" }}</ion-label>
-              </ion-item>
-            </div>
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-center" style="margin-left: 8px;">
-          <ion-col size="2">
-            <img
-              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,'+order.client.imageBase64)"
-              alt="Img Client"
-              height="37"
-              width="37"
-              class="imgCircle"
-            />
-          </ion-col>
-          <ion-col size="10">
-            <ion-item lines="none">
-              <ion-label style="margin-left: 10px;"
-                >{{ order.client.fullName }}</ion-label
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" style="text-align: center;">
+              <ion-button
+                fill="outline"
+                class="btOpenMap"
+                (click)="onOpenMap(order.client.location.lat, order.client.location.long)"
               >
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12" style="text-align: center;">
-            <ion-button
-              fill="outline"
-              class="btOpenMap"
-              (click)="onOpenMap(order.client.location.lat, order.client.location.long)"
-            >
-              <ion-icon
-                style="color: rgb(117, 39, 46); font-size: 30px;"
-                name="navigate-circle-outline"
-                slot="end"
-              ></ion-icon>
-              Voir sur la carte
-            </ion-button>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col offset="8">
-            <div>
-              <ion-item lines="none">
-                <ion-button
-                  class="btDetails"
-                  fill="clear"
-                  [routerLink]="['/waiting-orders-details', order.orderId]"
-                >
-                  Détails
-                </ion-button>
-              </ion-item>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+                <ion-icon
+                  style="color: rgb(117, 39, 46); font-size: 30px;"
+                  name="navigate-circle-outline"
+                  slot="end"
+                ></ion-icon>
+                Voir sur la carte
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col offset="8">
+              <div>
+                <ion-item lines="none">
+                  <ion-button
+                    class="btDetails"
+                    fill="clear"
+                    [routerLink]="['/waiting-orders-details', order.orderId]"
+                  >
+                    Détails
+                  </ion-button>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="pendingOrders.length == 0 && !isLoading">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" style="text-align: center; margin-top: 40%;">
+          <img
+            width="100"
+            height="100"
+            src="../../assets/logos/empty-transparent.png"
+            alt="EmptyList"
+          />
+          <br />
+          <span style="color: #b6b6b6; font-style: italic;"
+            >Aucune commande en attente !</span
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

@@ -58,22 +58,26 @@ export class ProcessingOrderDetailsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    console.log("Hello");
     this.orderService.getProcessingOrderDetails(this.orderId).subscribe(
       (response: any) => {
         this.order = response;
         this.isLoading = false;
         console.log(this.order);
-        setTimeout(() => {
-          this.buildMap();
-          this.addDeliveryManMarker();
-          this.getMatch();
-        }, 0);
       },
       (error) => {
         console.log(error);
         this.presentToast("Une erreur est survenue !", "danger");
       }
     );
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.buildMap();
+      this.addDeliveryManMarker();
+      this.getMatch();
+    }, 0);
   }
 
   changeProductsVisibility() {
@@ -95,8 +99,10 @@ export class ProcessingOrderDetailsPage implements OnInit {
   }
 
   buildMap() {
+    console.log("Build map");
+
     let conf = {
-      container: "map",
+      container: "mapContainer",
       style: this.style,
       zoom: 11,
       center: [this.deliveryManLng, this.deliveryManLat],
