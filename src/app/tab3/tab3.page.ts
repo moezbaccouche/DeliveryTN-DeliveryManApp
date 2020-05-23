@@ -1,50 +1,60 @@
-import { Component } from '@angular/core';
-import { DeliveryMan } from '../models/deliveryman.model';
-import { FormGroup } from '@angular/forms';
-import { DeliveryManService } from '../services/delivery-man.service';
-import { ToastController } from '@ionic/angular';
+import { Component } from "@angular/core";
+import { DeliveryMan } from "../models/deliveryman.model";
+import { FormGroup } from "@angular/forms";
+import { DeliveryManService } from "../services/delivery-man.service";
+import { ToastController, PopoverController } from "@ionic/angular";
+import { Subscription } from "rxjs";
+import { DomSanitizer } from "@angular/platform-browser";
+import { OrderService } from "../services/order.service";
+import { PopoverProfileMenuComponent } from "../components/popover-profile-menu/popover-profile-menu.component";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: "app-tab3",
+  templateUrl: "tab3.page.html",
+  styleUrls: ["tab3.page.scss"],
 })
 export class Tab3Page {
-  passwordType: string = "password";
   iconType: string = "eye-off-outline";
-  passwordShown: boolean = false;
-  ButtonDisabled: boolean;
+
   readOnly: boolean;
 
-  nomImage: string = "me";
-  deliveryman: DeliveryMan;
-  delivManId=1;
-  
+  deliveryMan: any;
+  delivManId = 1;
+  deliveryManSubscription: Subscription;
+  myDeliveredOrdersSubscription: Subscription;
+
   isLoading = true;
 
-  currentImage = "../../assets/me.png";
-
-  imagePickerOptions = {
-    maximumImagesCount: 1,
-    quality: 50,
-  };
-
-  formProfile: FormGroup;
-  showForm = false;
-  confirmUpdateEmail = false;
+  nbDeliveredOrders = 0;
 
   constructor(
-    private deliverymanService:DeliveryManService,
-    private toastController: ToastController
-    ) {}
+    private deliverymanService: DeliveryManService,
+    private toastController: ToastController,
+    private domSanitizer: DomSanitizer,
+    private orderService: OrderService,
+    private popoverController: PopoverController,
+    private router: Router
+  ) {}
 
-    ngOnInit() {
-      this.getDeliveryMan();
-      this.deliverymanService.emitClientSubject();
+  ngOnInit() {
+    this.getDeliveryMan();
+    this.deliveryManSubscription = this.deliverymanService.delivmanSubject.subscribe(
+      (data) => {
+        this.deliveryMan = data;
+      }
+    );
+    this.deliverymanService.emitDeliveryManSubject();
 
-    }
-    
-    getDeliveryMan() {
+    this.getDeliveredOrders();
+    this.myDeliveredOrdersSubscription = this.orderService.myDeliveredOrdersSubject.subscribe(
+      (orders: any) => {
+        this.nbDeliveredOrders = orders.length;
+      }
+    );
+  }
+
+  getDeliveryMan() {
     this.deliverymanService.getDelivMan(this.delivManId).then(
       () => {
         this.isLoading = false;
@@ -54,6 +64,36 @@ export class Tab3Page {
         console.log(error);
       }
     );
+  }
+
+  getDeliveredOrders() {
+    this.orderService.getMyDeliveredOrders(this.delivManId).then(
+      () => {},
+      (error) => {
+        console.log(error);
+        this.presentToast("Une erreur est survenue !", "danger");
+      }
+    );
+  }
+
+  async presentPopoverMenu(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverProfileMenuComponent,
+      event: ev,
+      translucent: true,
+      componentProps: {
+        onclick: (answer) => {
+          if (answer == 1) {
+            //Logout
+            localStorage.removeItem("token");
+            this.router.navigate(["/login"]);
+            console.log("déconnexion");
+          }
+          popover.dismiss();
+        },
+      },
+    });
+    return await popover.present();
   }
 
   async presentToast(msg: string, type: string) {

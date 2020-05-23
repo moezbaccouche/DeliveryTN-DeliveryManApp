@@ -19,6 +19,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 import { DeliveryInfoService } from "./services/delivery-info.service";
 import { PopoverMissingProductsComponent } from "./components/popover-missing-products/popover-missing-products.component";
+import { PopoverProfileMenuComponent } from "./components/popover-profile-menu/popover-profile-menu.component";
 
 registerLocaleData(localeFr, "en");
 
@@ -27,10 +28,12 @@ registerLocaleData(localeFr, "en");
     AppComponent,
     PopoverClientProfileComponent,
     PopoverMissingProductsComponent,
+    PopoverProfileMenuComponent,
   ],
   entryComponents: [
     PopoverClientProfileComponent,
     PopoverMissingProductsComponent,
+    PopoverProfileMenuComponent,
   ],
   imports: [
     BrowserModule,

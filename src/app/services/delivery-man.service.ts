@@ -1,41 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { DeliveryMan } from '../models/deliveryman.model';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { DeliveryMan } from "../models/deliveryman.model";
+import { Subject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DeliveryManService {
-
-  private baseUrl: string = "http://192.168.1.7:51044/delivery-app/deliverymen";
-  private deliveryman: DeliveryMan;
-  delivmanSubject = new Subject<DeliveryMan>();
+  private baseUrl: string = "http://192.168.1.3:51044/delivery-app/deliveryMen";
+  private deliveryMan: any;
+  delivmanSubject = new Subject<any>();
 
   constructor(private http: HttpClient) {}
 
-  emitClientSubject() {
-    this.delivmanSubject.next(this.deliveryman);
+  emitDeliveryManSubject() {
+    this.delivmanSubject.next(this.deliveryMan);
   }
 
-  getDelivMan(DelevManId) {
+  getDelivMan(deliveryManId) {
     return new Promise((resolve, reject) => {
-      fetch(`${this.baseUrl}deliverymen/${DelevManId}`)
+      fetch(`${this.baseUrl}/details/${deliveryManId}`)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          this.deliveryman = new DeliveryMan(
-            data.id,
-            data.firstName,
-            data.lastName,
-            data.dateOfBirth,
-            data.phone,
-            data.email,
-            data.imageBase64,
-          );
-          this.emitClientSubject();
-          resolve("Client récupéré avec succès !");
+          this.deliveryMan = data;
+          this.emitDeliveryManSubject();
+          resolve("Livreur récupéré avec succès !");
         }),
         (error) => {
           reject(error);
