@@ -20,6 +20,9 @@ import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 import { DeliveryInfoService } from "./services/delivery-info.service";
 import { PopoverMissingProductsComponent } from "./components/popover-missing-products/popover-missing-products.component";
 import { PopoverProfileMenuComponent } from "./components/popover-profile-menu/popover-profile-menu.component";
+import { PopoverBoughtProductComponent } from "./components/popover-bought-product/popover-bought-product.component";
+import { FormsModule } from "@angular/forms";
+import { PopoverAbortBuyingProductComponent } from "./components/popover-abort-buying-product/popover-abort-buying-product.component";
 
 registerLocaleData(localeFr, "en");
 
@@ -29,15 +32,20 @@ registerLocaleData(localeFr, "en");
     PopoverClientProfileComponent,
     PopoverMissingProductsComponent,
     PopoverProfileMenuComponent,
+    PopoverBoughtProductComponent,
+    PopoverAbortBuyingProductComponent,
   ],
   entryComponents: [
     PopoverClientProfileComponent,
     PopoverMissingProductsComponent,
     PopoverProfileMenuComponent,
+    PopoverBoughtProductComponent,
+    PopoverAbortBuyingProductComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
   ],

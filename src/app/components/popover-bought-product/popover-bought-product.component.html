@@ -1,0 +1,58 @@
+<ion-grid>
+  <ion-row class="ion-justify-content-start">
+    <ion-col>
+      <span style="text-align: center;"
+        >Si vous avez acheté ce produit précisez la quantité achetée. (Quantité
+        demandée: <strong>{{ requiredAmount }}</strong
+        >)</span
+      >
+    </ion-col>
+  </ion-row>
+  <br />
+  <ion-row
+    style="border: 1px #a2a9b4 solid; border-radius: 20px;"
+    class="ion-justify-content-center"
+  >
+    <ion-col style="text-align: right;">
+      <ion-button
+        color="danger"
+        fill="clear"
+        (click)="decrementAmount()"
+        [disabled]="productAmount == 1"
+      >
+        <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col style="text-align: center;">
+      <ion-input type="text" [(ngModel)]="productAmount"></ion-input>
+    </ion-col>
+    <ion-col style="text-align: left;">
+      <ion-button
+        [disabled]="productAmount == requiredAmount"
+        fill="clear"
+        (click)="incrementAmount()"
+      >
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-end">
+    <ion-col size="8" style="text-align: end;">
+      <span
+        style="color: #75272e; font-weight: bold; font-size: 14px;"
+        color="danger"
+        (click)="onConfirm()"
+        >Confirmer</span
+      >
+    </ion-col>
+    <ion-col size="4" style="text-align: end;">
+      <span
+        style="color: #75272e; font-weight: bold; font-size: 14px;"
+        color="danger"
+        (click)="onAbort()"
+        >Annuler</span
+      >
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -103,7 +103,10 @@
           <ion-col size="7" style="font-size: 12px;">
             <ion-row>
               <ion-col>
-                <span>{{ product.name }}</span>
+                <span *ngIf="!product.notBought">{{ product.name }}</span>
+                <span *ngIf="product.notBought" class="redStrikeHover"
+                  >{{ product.name }}</span
+                >
               </ion-col>
             </ion-row>
             <ion-row>
@@ -114,9 +117,26 @@
           </ion-col>
           <ion-col size="2" *ngIf="order.status == 1">
             <ion-checkbox
-              (ionChange)="editNbBoughtProducts($event)"
+              (ionChange)="editBoughtProducts($event, product)"
               class="productCheckbox"
             ></ion-checkbox>
+          </ion-col>
+          <!-- Is displayed only when the item has not been bought -->
+          <ion-col size="2" *ngIf="product.notBought">
+            <span
+              style="color: #d9534f; font-size: 11px;"
+              (click)="presentBoughtProductPopover(product.id, product.amount)"
+              ><strong>Non acheté</strong></span
+            >
+          </ion-col>
+          <ion-col size="2" *ngIf="!product.notBought">
+            <ion-button
+              fill="clear"
+              [disabled]="updatingProducts"
+              (click)="presentPopoverAbortBuyingProduct(product.id)"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon>
+            </ion-button>
           </ion-col>
         </ion-row>
       </div>
@@ -127,7 +147,7 @@
             class="btnDeliver"
             *ngIf="order.status == 1"
             (click)="onDeliverOrderClick()"
-            [disabled]="isUpdating"
+            [disabled]="isUpdating || nbBoughtProducts == 0"
           >
             <ion-icon name="basket" slot="end"></ion-icon>
             Livrer
@@ -137,6 +157,7 @@
             class="btnDeliver"
             *ngIf="order.status == 2"
             (click)="completeDelivery()"
+            [disabled]="updatingProducts"
           >
             <ion-icon name="flag" slot="end"></ion-icon>
             Arrivé

@@ -26,11 +26,16 @@
               alt="Img"
             />
           </ion-col>
-          <ion-col size="8">
+          <ion-col size="6">
             <ion-grid class="ion-no-padding">
               <ion-row>
-                <ion-col class="ion-no-padding"
+                <ion-col *ngIf="!product.notBought" class="ion-no-padding"
                   ><span style="font-size: 12px;"
+                    >{{ product.name }}</span
+                  ></ion-col
+                >
+                <ion-col *ngIf="product.notBought" class="ion-no-padding"
+                  ><span style="font-size: 12px;" class="redStrikeHover"
                     >{{ product.name }}</span
                   ></ion-col
                 >
@@ -43,6 +48,13 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+          </ion-col>
+          <ion-col size="2" *ngIf="product.notBought">
+            <span
+              style="color: #d9534f; font-size: 11px;"
+              (click)="presentBoughtProductPopover(product.id, product.amount)"
+              ><strong>Non acheté</strong></span
+            >
           </ion-col>
         </ion-row>
       </ion-grid>

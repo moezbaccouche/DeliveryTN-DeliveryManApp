@@ -11,6 +11,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DeliveryInfoService } from "../../services/delivery-info.service";
 import { PopoverMissingProductsComponent } from "src/app/components/popover-missing-products/popover-missing-products.component";
+import { PopoverBoughtProductComponent } from "src/app/components/popover-bought-product/popover-bought-product.component";
+import { PopoverAbortBuyingProductComponent } from "src/app/components/popover-abort-buying-product/popover-abort-buying-product.component";
 
 @Component({
   selector: "app-processing-order-details",
@@ -26,6 +28,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
 
   isLoading = true;
   isUpdating = false;
+  updatingProducts = false;
 
   distance = 0;
   marker: any;
@@ -36,6 +39,8 @@ export class ProcessingOrderDetailsPage implements OnInit {
   style = "mapbox://styles/mapbox/outdoors-v11";
 
   nbBoughtProducts = 0;
+  boughtProducts = [];
+  missingProducts = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -206,33 +211,55 @@ export class ProcessingOrderDetailsPage implements OnInit {
   }
 
   deliverOrder() {
+    this.initMissingProductsArray();
     this.isUpdating = true;
-    this.orderService.deliverOrder(this.orderId, 2).subscribe(
-      () => {
-        this.order.status = 2;
-        this.order.statusString = "En cours de livraison";
-        this.isUpdating = false;
-      },
-      (error) => {
-        console.log(error);
-        this.isUpdating = false;
-        this.presentToast("Une erreur est survenue !", "danger");
-      }
-    );
+    this.orderService
+      .deliverOrder(this.orderId, 2, this.missingProducts)
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.order = response;
+          this.order.status = 2;
+          this.order.statusString = "En cours de livraison";
+          this.isUpdating = false;
+        },
+        (error) => {
+          console.log(error);
+          this.isUpdating = false;
+          this.presentToast("Une erreur est survenue !", "danger");
+        }
+      );
   }
 
   completeDelivery() {
     //Navigate to summary page
+
     this.router.navigate(["/order-summary", this.orderId]);
   }
 
-  editNbBoughtProducts(e) {
+  editBoughtProducts(e, product) {
     //Increase or decrease the number of bought products
     if (e.detail.checked) {
       this.nbBoughtProducts++;
+      this.boughtProducts.push(product);
     } else {
       this.nbBoughtProducts--;
+      const index = this.boughtProducts.findIndex((p) => {
+        return p.id === product.id;
+      });
+      if (index !== -1) {
+        this.boughtProducts.splice(index, 1);
+      }
     }
+  }
+
+  initMissingProductsArray() {
+    this.missingProducts = [];
+    this.order.products.forEach((p) => {
+      if (!this.boughtProducts.includes(p)) {
+        this.missingProducts.push(p.id);
+      }
+    });
   }
 
   async presentToast(msg: string, type: string) {
@@ -254,6 +281,74 @@ export class ProcessingOrderDetailsPage implements OnInit {
           console.log(answer);
           if (answer) {
             this.deliverOrder();
+          }
+          popover.dismiss();
+        },
+      },
+    });
+
+    return await popover.present();
+  }
+
+  async presentBoughtProductPopover(productId, amount) {
+    const popover = await this.popoverController.create({
+      component: PopoverBoughtProductComponent,
+      translucent: true,
+      componentProps: {
+        requiredAmount: amount,
+        onclick: (answer, amount) => {
+          console.log(amount);
+          //Change notBought to false
+          //update the amount
+          if (answer) {
+            this.updatingProducts = true;
+            this.orderService
+              .buyProduct(this.orderId, productId, parseInt(amount))
+              .subscribe(
+                (response: any) => {
+                  this.order = response;
+                  this.updatingProducts = false;
+                  this.presentToast("Commande mise à jour !", "success");
+                },
+                (error) => {
+                  console.log(error);
+                  this.updatingProducts = false;
+                  this.presentToast("Une erreur est survenue !", "danger");
+                }
+              );
+          }
+
+          popover.dismiss();
+        },
+      },
+    });
+
+    return await popover.present();
+  }
+
+  async presentPopoverAbortBuyingProduct(productId) {
+    const popover = await this.popoverController.create({
+      component: PopoverAbortBuyingProductComponent,
+      translucent: true,
+      componentProps: {
+        onclick: (answer) => {
+          console.log(answer);
+          if (answer) {
+            this.updatingProducts = true;
+            this.orderService
+              .abortBuyingProduct(this.orderId, productId)
+              .subscribe(
+                (response: any) => {
+                  this.order = response;
+                  this.updatingProducts = false;
+                  this.presentToast("Commande mise à jour !", "success");
+                },
+                (error) => {
+                  console.log(error);
+                  this.updatingProducts = false;
+                  this.presentToast("Une erreur est survenue !", "danger");
+                }
+              );
           }
           popover.dismiss();
         },

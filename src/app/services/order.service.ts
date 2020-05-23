@@ -96,7 +96,7 @@ export class OrderService {
     return this.http.get(`${this.baseUrl}/processing/details/${orderId}`);
   }
 
-  deliverOrder(orderId, newStatus) {
+  deliverOrder(orderId, newStatus, missingProductsIds) {
     let httpHeaders = new HttpHeaders({
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -110,6 +110,7 @@ export class OrderService {
       {
         idOrder: orderId,
         newStatus: newStatus,
+        missingProducts: missingProductsIds,
       },
       options
     );
@@ -152,7 +153,6 @@ export class OrderService {
     //   },
     //   options
     // );
-    console.log(idOrder, idDeliveryMan, duration);
     return fetch(`${this.baseUrl}/acceptOrder`, {
       method: "post",
       headers: {
@@ -180,5 +180,44 @@ export class OrderService {
         this.emitPendingOrdersSubject();
       })
       .catch((error) => console.error(error));
+  }
+
+  buyProduct(orderId, productId, boughtAmount) {
+    let httpHeaders = new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    });
+    let options = {
+      headers: httpHeaders,
+    };
+
+    return this.http.post(
+      `${this.baseUrl}/buyProduct`,
+      {
+        idOrder: orderId,
+        idProduct: productId,
+        boughtAmount: boughtAmount,
+      },
+      options
+    );
+  }
+
+  abortBuyingProduct(orderId, productId) {
+    let httpHeaders = new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    });
+    let options = {
+      headers: httpHeaders,
+    };
+
+    return this.http.post(
+      `${this.baseUrl}/abortBuyingProduct`,
+      {
+        idOrder: orderId,
+        idProduct: productId,
+      },
+      options
+    );
   }
 }

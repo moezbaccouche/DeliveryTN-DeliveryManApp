@@ -35,6 +35,7 @@ export class OrderSummaryPage implements OnInit {
     this.orderService.getPendingOrderDetails(this.orderId).subscribe(
       (order: any) => {
         this.order = order;
+        console.log(this.order);
         this.isLoading = false;
       },
       (error) => {
