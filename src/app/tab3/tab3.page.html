@@ -1,17 +1,91 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Profil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="primary" (click)="presentPopover($event)">
+        <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-spinner
+    color="primary"
+    [class.loadingSpinner]="isLoading"
+    [class.stopLoading]="!isLoading"
+  ></ion-spinner>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <div *ngIf="deliveryman!= null">
+    <div class="header">
+      <h2>{{ deliveryman.firstName }} {{ deliveryman.lastName }}</h2>
+
+      <div class="space-between">
+        <div class="followings">
+          <ion-badge color="primary" mode="ios"
+            >5</ion-badge
+          >
+          <p>Courses effectuées</p>
+        </div>
+
+        <div class="followings">
+          <ion-badge color="primary" mode="ios"
+            >2</ion-badge
+          >
+          <p>Produits favoris</p>
+        </div>
+      </div>
+    </div>
+
+    <div >
+      <div class="flex">
+        <div class="border-blue">
+          <div class="border-white">
+            <div class="img-box">
+              <img
+                [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' +currentImage)"
+                tappable
+                (click)="openPreview('data:image/jpg;base64,' +currentImage)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ion-grid>
+        <ion-row style="padding: 0px;">
+          <ion-col style="text-align: center; padding: 0px;">
+            <h6>Email: <strong>{{ deliveryman.email}}</strong></h6>
+          </ion-col>
+        </ion-row>
+        <ion-row style="padding: 0px; padding: 0px;">
+          <ion-col style="text-align: center; padding: 0px;">
+            <h6>
+              Adresse:
+              <strong
+                >{{ deliveryman.location.address }}, {{ deliveryman.location.city
+                }}</strong
+              >
+            </h6>
+          </ion-col>
+        </ion-row>
+        <ion-row style="padding: 0px; padding: 0px;">
+          <ion-col style="text-align: center; padding: 0px;">
+            <h6>Téléphone: <strong>{{ deliveryman.phone }}</strong></h6>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+
+      <ion-button
+        expand="block"
+        class="button"
+        shape="round"
+        (click)="onSubmit()"
+      >
+        Modifier
+        <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      </ion-button>
+  </div>
 </ion-content>

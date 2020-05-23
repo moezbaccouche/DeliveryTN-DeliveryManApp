@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class ClientService {
-  private baseUrl: string = "http://192.168.1.6:51044/delivery-app/clients";
+  private baseUrl: string = "http://192.168.1.7:51044/delivery-app/clients";
   constructor(private http: HttpClient) {}
 
   getClient(idClient) {
