@@ -54,8 +54,7 @@ export class WaitingOrdersPage implements OnInit, OnDestroy {
   }
 
   onOpenMap(lat, long) {
-    console.log(lat + " " + long);
-    this.launchNavigator.navigate([long, lat]).then(
+    this.launchNavigator.navigate([lat, long]).then(
       (success) => {
         console.log("Carte lancée !");
       },

@@ -13,6 +13,7 @@ import { DeliveryInfoService } from "../../services/delivery-info.service";
 import { PopoverMissingProductsComponent } from "src/app/components/popover-missing-products/popover-missing-products.component";
 import { PopoverBoughtProductComponent } from "src/app/components/popover-bought-product/popover-bought-product.component";
 import { PopoverAbortBuyingProductComponent } from "src/app/components/popover-abort-buying-product/popover-abort-buying-product.component";
+import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 
 @Component({
   selector: "app-processing-order-details",
@@ -33,10 +34,11 @@ export class ProcessingOrderDetailsPage implements OnInit {
   distance = 0;
   marker: any;
 
-  deliveryManLat;
-  deliveryManLng;
+  deliveryManLat = 0;
+  deliveryManLng = 0;
   private map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v11";
+  markerClient;
 
   nbBoughtProducts = 0;
   boughtProducts = [];
@@ -51,7 +53,8 @@ export class ProcessingOrderDetailsPage implements OnInit {
     private geolocation: Geolocation,
     private deliveryInfoService: DeliveryInfoService,
     private popoverController: PopoverController,
-    private router: Router
+    private router: Router,
+    private launchNavigator: LaunchNavigator
   ) {
     mapboxgl.accessToken = mapToken;
   }
@@ -60,7 +63,6 @@ export class ProcessingOrderDetailsPage implements OnInit {
     this.sub = this.activatedRoute.params.subscribe((params) => {
       this.orderId = +params["id"];
     });
-    this.getCurrentLocation();
   }
 
   ionViewWillEnter() {
@@ -70,6 +72,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
         this.order = response;
         this.isLoading = false;
         console.log(this.order);
+        this.getCurrentLocation();
       },
       (error) => {
         console.log(error);
@@ -78,13 +81,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
     );
   }
 
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.buildMap();
-      this.addDeliveryManMarker();
-      this.getMatch();
-    }, 0);
-  }
+  ionViewDidEnter() {}
 
   changeProductsVisibility() {
     if (this.displayProducts) {
@@ -105,7 +102,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
   }
 
   buildMap() {
-    console.log("Build map");
+    console.log(this.deliveryManLng + " " + this.deliveryManLat);
 
     let conf = {
       container: "mapContainer",
@@ -115,8 +112,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
       //center : [long, lat]
     };
     this.map = new mapboxgl.Map(conf);
-
-    var marker = new mapboxgl.Marker()
+    this.markerClient = new mapboxgl.Marker()
       .setLngLat([
         this.order.client.location.long,
         this.order.client.location.lat,
@@ -129,6 +125,11 @@ export class ProcessingOrderDetailsPage implements OnInit {
       (response) => {
         this.deliveryManLat = response.coords.latitude;
         this.deliveryManLng = response.coords.longitude;
+        setTimeout(() => {
+          this.buildMap();
+          this.addDeliveryManMarker();
+          this.getMatch();
+        }, 0);
       },
       (error) => {
         this.presentToast("Impossible de localiser votre position !", "danger");
@@ -196,6 +197,23 @@ export class ProcessingOrderDetailsPage implements OnInit {
     this.marker = new mapboxgl.Marker(el)
       .setLngLat([this.deliveryManLng, this.deliveryManLat])
       .addTo(this.map);
+  }
+
+  onOpenMap() {
+    this.launchNavigator
+      .navigate([
+        this.order.client.location.lat,
+        this.order.client.location.long,
+      ])
+      .then(
+        (success) => {
+          console.log("Carte lancée !");
+        },
+        (error) => {
+          console.log(error);
+          this.presentToast("Impossible d'ouvrir la carte !", "danger");
+        }
+      );
   }
 
   onDeliverOrderClick() {

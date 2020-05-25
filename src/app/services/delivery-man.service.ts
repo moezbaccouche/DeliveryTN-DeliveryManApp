@@ -33,4 +33,19 @@ export class DeliveryManService {
         };
     });
   }
+
+  register(newDeliveryMan) {
+    return this.http.post(`${this.baseUrl}/register`, newDeliveryMan);
+  }
+
+  login(deliveryManCredentials) {
+    return this.http.post(
+      `${this.baseUrl}/loginDeliveryMan`,
+      deliveryManCredentials
+    );
+  }
+
+  resetPassword(email) {
+    return this.http.post(`${this.baseUrl}/resetPassword`, email);
+  }
 }

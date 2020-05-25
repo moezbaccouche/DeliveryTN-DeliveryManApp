@@ -17,7 +17,7 @@
     <ion-grid>
       <ion-row *ngIf="order.status == 2">
         <ion-col size="12" style="text-align: center;">
-          <ion-button fill="outline" class="btnNavigate">
+          <ion-button fill="outline" class="btnNavigate" (click)="onOpenMap()">
             <ion-icon name="navigate-circle-outline" slot="end"></ion-icon>
             Guides-moi
           </ion-button>

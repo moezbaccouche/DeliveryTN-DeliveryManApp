@@ -35,6 +35,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
 
   private map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v11";
+  markerClient;
 
   constructor(
     private orderService: OrderService,
@@ -52,7 +53,6 @@ export class WaitingOrdersDetailsPage implements OnInit {
     this.sub = this.activatedRoute.params.subscribe((params) => {
       this.orderId = +params["id"];
     });
-    this.getCurrentLocation();
   }
 
   ionViewWillEnter() {
@@ -60,11 +60,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
       (response: any) => {
         this.order = response;
         this.isLoading = false;
-        setTimeout(() => {
-          this.buildMap();
-          this.addDeliveryManMarker();
-          this.getMatch();
-        }, 0);
+        this.getCurrentLocation();
       },
       (error) => {
         console.log(error);
@@ -84,8 +80,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
       //center : [long, lat]
     };
     this.map = new mapboxgl.Map(conf);
-
-    var marker = new mapboxgl.Marker()
+    this.markerClient = new mapboxgl.Marker()
       .setLngLat([
         this.order.client.location.long,
         this.order.client.location.lat,
@@ -98,6 +93,11 @@ export class WaitingOrdersDetailsPage implements OnInit {
       (response) => {
         this.deliveryManLat = response.coords.latitude;
         this.deliveryManLng = response.coords.longitude;
+        setTimeout(() => {
+          this.buildMap();
+          this.addDeliveryManMarker();
+          this.getMatch();
+        }, 0);
       },
       (error) => {
         this.presentToast("Impossible de localiser votre position !", "danger");
