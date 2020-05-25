@@ -11,10 +11,12 @@ export class OrderService {
   private pendingOrders: any[] = [];
   private processingOrders: any[] = [];
   private myDeliveredOrders: any[] = [];
+  private inDeliveryOrders: any[] = [];
 
   pendingOrdersSubject = new Subject<any[]>();
   processingOrdersSubject = new Subject<any[]>();
   myDeliveredOrdersSubject = new Subject<any[]>();
+  inDeliveryOrdersSubject = new Subject<any[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -28,6 +30,10 @@ export class OrderService {
 
   emitMyDeliveredOrdersSubject() {
     this.myDeliveredOrdersSubject.next(this.myDeliveredOrders.slice());
+  }
+
+  emitInDeliveryOrdersSubject() {
+    this.inDeliveryOrdersSubject.next(this.inDeliveryOrders.slice());
   }
 
   getMyDeliveredOrders(deliveryManId) {
@@ -92,6 +98,23 @@ export class OrderService {
     });
   }
 
+  getDeliveryManInDeliveryOrders(deliveryManId) {
+    return new Promise((resolve, reject) => {
+      fetch(`${this.baseUrl}/inDelivery/deliveryMan/${deliveryManId}`)
+        .then((response: any) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.inDeliveryOrders = data;
+          this.emitInDeliveryOrdersSubject();
+          resolve("Commandes récuperées avec succès !");
+        }),
+        (error) => {
+          reject(error);
+        };
+    });
+  }
+
   getProcessingOrderDetails(orderId) {
     return this.http.get(`${this.baseUrl}/processing/details/${orderId}`);
   }
@@ -128,9 +151,16 @@ export class OrderService {
         newStatus: newStatus,
       }),
     })
-      .then((response) => {
+      .then((response: any) => {
         this.myDeliveredOrders.push(response);
         this.emitMyDeliveredOrdersSubject();
+        const index = this.inDeliveryOrders.findIndex((o) => {
+          return o.id === response.order.id;
+        });
+        if (index !== -1) {
+          this.inDeliveryOrders.splice(index, 1);
+          this.emitInDeliveryOrdersSubject();
+        }
       })
       .catch((error) => console.error(error));
   }

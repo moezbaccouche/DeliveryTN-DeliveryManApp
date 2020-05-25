@@ -10,6 +10,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DeliveryInfoService } from "../services/delivery-info.service";
 
+declare var window;
+
 @Component({
   selector: "app-waiting-orders-details",
   templateUrl: "./waiting-orders-details.page.html",

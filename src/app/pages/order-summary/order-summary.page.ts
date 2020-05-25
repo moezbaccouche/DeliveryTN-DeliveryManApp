@@ -5,6 +5,8 @@ import { Subscription } from "rxjs";
 import { ToastController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
 
+declare var window;
+
 @Component({
   selector: "app-order-summary",
   templateUrl: "./order-summary.page.html",
@@ -14,9 +16,14 @@ export class OrderSummaryPage implements OnInit {
   orderId;
   order;
 
+  inDeliveryOrdersSubscription: Subscription;
+  inDeliveryOrders = [];
+
   isLoading = true;
 
   sub: Subscription;
+
+  deliveryManId;
 
   constructor(
     private orderService: OrderService,
@@ -29,6 +36,12 @@ export class OrderSummaryPage implements OnInit {
     this.sub = this.activatedRoute.params.subscribe((params) => {
       this.orderId = +params["id"];
     });
+    this.inDeliveryOrdersSubscription = this.orderService.inDeliveryOrdersSubject.subscribe(
+      (orders: any) => {
+        this.inDeliveryOrders = orders;
+      }
+    );
+    this.orderService.emitInDeliveryOrdersSubject();
   }
 
   ionViewWillEnter() {
@@ -43,6 +56,36 @@ export class OrderSummaryPage implements OnInit {
         this.presentToast("Une erreur est survenue !", "danger");
       }
     );
+  }
+
+  getInDeliveryOrders() {
+    this.orderService
+      .getDeliveryManInDeliveryOrders(this.deliveryManId)
+      .then(() => {
+        this.isLoading = false;
+      });
+  }
+
+  onComplete() {
+    //Call API to change status of order
+    //If inDeliveryOrders.length == 0 then stop tracking
+
+    this.orderService.completeDelivery(this.orderId, 3).then(
+      () => {
+        if (this.inDeliveryOrders.length == 0) {
+          //Uncomment this line when the app is nearly finished
+          //this.stopBackgroundTracking();
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.presentToast("Une erreur est survenue !", "danger");
+      }
+    );
+  }
+
+  stopBackgroundTracking() {
+    window.app.backgroundGeolocation.stop();
   }
 
   async presentToast(msg: string, type: string) {

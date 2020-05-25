@@ -15,6 +15,8 @@ import { PopoverBoughtProductComponent } from "src/app/components/popover-bought
 import { PopoverAbortBuyingProductComponent } from "src/app/components/popover-abort-buying-product/popover-abort-buying-product.component";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 
+declare var window;
+
 @Component({
   selector: "app-processing-order-details",
   templateUrl: "./processing-order-details.page.html",
@@ -240,6 +242,9 @@ export class ProcessingOrderDetailsPage implements OnInit {
           this.order.status = 2;
           this.order.statusString = "En cours de livraison";
           this.isUpdating = false;
+
+          //Uncomment this line when the app is nearly finished
+          //this.startBackgroundTracking();
         },
         (error) => {
           console.log(error);
@@ -247,6 +252,10 @@ export class ProcessingOrderDetailsPage implements OnInit {
           this.presentToast("Une erreur est survenue !", "danger");
         }
       );
+  }
+
+  startBackgroundTracking() {
+    window.app.backgroundGeolocation.start();
   }
 
   completeDelivery() {

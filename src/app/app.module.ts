@@ -25,6 +25,7 @@ import { PopoverBoughtProductComponent } from "./components/popover-bought-produ
 import { FormsModule } from "@angular/forms";
 import { PopoverAbortBuyingProductComponent } from "./components/popover-abort-buying-product/popover-abort-buying-product.component";
 import { AuthInterceptor } from "./auth/auth.interceptor";
+import { BackgroundGeolocation } from "@ionic-native/background-geolocation/ngx";
 
 registerLocaleData(localeFr, "en");
 
@@ -61,6 +62,7 @@ registerLocaleData(localeFr, "en");
     LaunchNavigator,
     DeliveryInfoService,
     Camera,
+    BackgroundGeolocation,
     //The following line makes a token check for all the services requests
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

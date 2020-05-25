@@ -1,10 +1,13 @@
 import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root",
 })
 export class DeliveryInfoService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+  private baseUrl: string =
+    "http://192.168.1.3:51044/delivery-app/deliveryInfos";
 
   getRoute(coordinates, accessToken) {
     var url =
@@ -21,5 +24,25 @@ export class DeliveryInfoService {
           reject(error);
         };
     });
+  }
+
+  updateCurrenLocation(lat, long, deliveryManId) {
+    let httpHeaders = new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    });
+    let options = {
+      headers: httpHeaders,
+    };
+
+    return this.http.post(
+      `${this.baseUrl}/location/update`,
+      {
+        long: long,
+        lat: lat,
+        deliveryManId: deliveryManId,
+      },
+      options
+    );
   }
 }
