@@ -94,8 +94,7 @@
     </ion-item>
   </ion-card>
 
-  <ion-button (click)="startBackgroundTracking()">start</ion-button>
-  <ion-button (click)="getLocations()">Get Locations</ion-button>
+  <ion-button routerLink="/signature">Signature</ion-button>
 
   <div *ngIf="show">
     <p *ngFor="let l of locations">

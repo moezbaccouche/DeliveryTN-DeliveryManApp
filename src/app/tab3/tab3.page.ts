@@ -20,7 +20,7 @@ export class Tab3Page {
   readOnly: boolean;
 
   deliveryMan: any;
-  delivManId = 1;
+  delivManId = 2;
   deliveryManSubscription: Subscription;
   myDeliveredOrdersSubscription: Subscription;
 
