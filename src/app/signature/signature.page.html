@@ -13,7 +13,7 @@
  
   <canvas #imageCanvas (mousedown)="startDrawing($event)" (touchstart)="startDrawing($event)"
    (mousemove)="moved($event)" (touchmove)="moved($event)"
-   (mouseup)="endDrawing($event)" (touchend)="endDrawing($event)" >
+   (mouseup)="endDrawing()" (touchend)="endDrawing()" >
 
   </canvas>
   <ion-button expand='full' (click)="saveImage()">

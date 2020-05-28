@@ -32,8 +32,8 @@ export class SignaturePage implements OnInit,AfterViewInit {
     this.drawing=true;
     const canvasPosition = this.canvasElement.getBoundingClientRect();
 
-    this.saveX = ev.pageX - canvasPosition.x;    
-    this.saveY = ev.pageY - canvasPosition.y;
+    this.saveX = ev.touches[0].pageX - canvasPosition.x;    
+    this.saveY = ev.touches[0].pageY - canvasPosition.y;
 
   }
 
@@ -46,8 +46,8 @@ export class SignaturePage implements OnInit,AfterViewInit {
     const canvasPosition = this.canvasElement.getBoundingClientRect();
     let ctx = this.canvasElement.getContext("2d");
 
-    let currentX = ev.pageX - canvasPosition.x;   
-    let currentY = ev.pageY - canvasPosition.y;
+    let currentX = ev.touches[0].pageX - canvasPosition.x;   
+    let currentY = ev.touches[0].pageY - canvasPosition.y;
     
     ctx.lineJoin = 'round';
     ctx.strokeStyle= this.seletectedColor;
