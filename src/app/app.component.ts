@@ -42,7 +42,6 @@ export class AppComponent {
         this.statusBar.overlaysWebView(false);
         this.statusBar.styleLightContent();
       }
-      console.log(new Date());
       const config: BackgroundGeolocationConfig = {
         desiredAccuracy: 10,
         stationaryRadius: 1,

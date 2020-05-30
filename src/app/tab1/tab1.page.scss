@@ -1,6 +1,15 @@
 .imgCircle {
-    border-radius: 50%;
-    height: 45px;
-    width: 45px;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
 }
 
+.btProfile {
+  text-transform: none;
+  --border-color: rgb(117, 39, 46);
+  --color: rgb(117, 39, 46);
+}
+
+.cardPendingOrders {
+  background-image: url("../../assets/pending.png");
+}

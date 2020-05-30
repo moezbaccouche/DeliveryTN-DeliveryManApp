@@ -7,98 +7,127 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-grid>
-      <ion-row style="padding-left: 3px;">
-        <ion-col size="3">
-          <div>
+  <ion-spinner
+    [class]="isLoading ? 'loadingSpinner' : 'stoppedSpinner'"
+  ></ion-spinner>
+
+  <div *ngIf="deliveryMan != null">
+    <ion-card class="cardPendingOrders" routerLink="/waiting-orders">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="3">
             <img
-              src="../../assets/Moez.jpg"
+              [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' +deliveryMan.imageBase64)"
               alt="Img Livreur"
               class="imgCircle"
             />
-          </div>
-        </ion-col>
-        <ion-col size="9" pull="0.7">
-          <ion-item>
-            <div>
-              <span color="primary">Moez Baccouche</span>
-            </div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
+          </ion-col>
+          <ion-col size="9" style="font-size: 16px;">
+            {{ deliveryMan.firstName }} {{ deliveryMan.lastName }}
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="deliveryMan.rating != 0">
+          <ion-col style="color: rgb(117, 39, 46);">
             <div>
               Note Moyenne :
-              <span *ngFor="let a of etoiles">
-                <ion-icon name="star" slot="end"></ion-icon>
-              </span>
+              <!-- The ternary condition means : if the starScore == 0 then set the icon star outline -->
+              <!-- else if the star score != 0 and == 1 then set star icon -->
+              <!-- else (score == 0.5) set the icon half-star -->
+              <ion-icon
+                [name]="
+                    starOne == 0
+                      ? 'star-outline'
+                      : starOne == 1
+                      ? 'star'
+                      : 'star-half-outline'
+                  "
+              ></ion-icon>
+              <ion-icon
+                [name]="
+                    starTwo == 0
+                      ? 'star-outline'
+                      : starTwo == 1
+                      ? 'star'
+                      : 'star-half-outline'
+                  "
+              ></ion-icon>
+              <ion-icon
+                [name]="
+                    starThree == 0
+                      ? 'star-outline'
+                      : starThree == 1
+                      ? 'star'
+                      : 'star-half-outline'
+                  "
+              ></ion-icon>
+              <ion-icon
+                [name]="
+                    starFour == 0
+                      ? 'star-outline'
+                      : starFour == 1
+                      ? 'star'
+                      : 'star-half-outline'
+                  "
+              ></ion-icon>
+              <ion-icon
+                [name]="
+                    starFive == 0
+                      ? 'star-outline'
+                      : starFive == 1
+                      ? 'star'
+                      : 'star-half-outline'
+                  "
+              ></ion-icon>
             </div>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col offset="7">
-            <div>
-              <ion-button fill="outline" slot="end" routerLink="/tabs/tab3"
-                >Profile</ion-button
-              >
-            </div>
+          <ion-col size="12" style="text-align: end;">
+            <ion-button class="btProfile" fill="outline" routerLink="/tabs/tab3"
+              >Détails</ion-button
+            >
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-card-content>
-  </ion-card>
+    </ion-card>
 
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col size="6">
-        <div>
-          <ion-card>
-            <ion-item routerLink="/tabs/tab2">
-              <span>
-                <ion-icon name="construct-outline" slot="end"></ion-icon> <br />
-                Commandes <br />
-                en cours de <br />
-                traitement
-              </span>
-            </ion-item>
-          </ion-card>
-        </div>
-      </ion-col>
-      <ion-col size="6">
-        <div>
-          <ion-card>
-            <ion-item routerLink="/historique">
-              <span>
-                <ion-icon name="reload-outline" slot="end"></ion-icon> <br />
-                Historique <br />
-                de mes <br />
-                livraisons
-              </span>
-            </ion-item>
-          </ion-card>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-card class="cardPendingOrders" routerLink="/waiting-orders">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="9">
+            <span>Commandes en attente</span>
+          </ion-col>
+          <ion-col size="3">
+            <img src="../../assets/waiting.png" alt="" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
 
-  <ion-card>
-    <ion-item routerLink="/waiting-orders">
-      <ion-icon name="hourglass-outline" slot="start"></ion-icon>
-      <span>Commandes en attente</span>
-    </ion-item>
-  </ion-card>
+    <ion-card class="cardPendingOrders" routerLink="/tabs/tab2">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="9">
+            <span>Commandes en cours de traitement</span>
+          </ion-col>
+          <ion-col size="3">
+            <img src="../../assets/processing.png" alt="" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
 
-  <ion-button routerLink="/signature">Signature</ion-button>
-
-  <div *ngIf="show">
-    <p *ngFor="let l of locations">
-      Latitude: {{ l.latitude }} longitude: {{ l.longitude }}
-    </p>
+    <ion-card class="cardPendingOrders" routerLink="/historique">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="9">
+            <span>Historique des livraisons</span>
+          </ion-col>
+          <ion-col size="3">
+            <img src="../../assets/history.png" alt="" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
   </div>
 </ion-content>
