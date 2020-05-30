@@ -26,7 +26,8 @@ import { FormsModule } from "@angular/forms";
 import { PopoverAbortBuyingProductComponent } from "./components/popover-abort-buying-product/popover-abort-buying-product.component";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { BackgroundGeolocation } from "@ionic-native/background-geolocation/ngx";
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule } from "@ionic/storage";
+import { SignaturePage } from "./signature/signature.page";
 
 registerLocaleData(localeFr, "en");
 
@@ -38,6 +39,7 @@ registerLocaleData(localeFr, "en");
     PopoverProfileMenuComponent,
     PopoverBoughtProductComponent,
     PopoverAbortBuyingProductComponent,
+    SignaturePage,
   ],
   entryComponents: [
     PopoverClientProfileComponent,
@@ -45,6 +47,7 @@ registerLocaleData(localeFr, "en");
     PopoverProfileMenuComponent,
     PopoverBoughtProductComponent,
     PopoverAbortBuyingProductComponent,
+    SignaturePage,
   ],
   imports: [
     BrowserModule,

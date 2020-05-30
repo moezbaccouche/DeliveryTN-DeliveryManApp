@@ -6,7 +6,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class OrderService {
-  private baseUrl: string = "http://192.168.1.3:51044/delivery-app/orders";
+  private baseUrl: string = "http://192.168.1.9:51044/delivery-app/orders";
 
   private pendingOrders: any[] = [];
   private processingOrders: any[] = [];
@@ -139,8 +139,10 @@ export class OrderService {
     );
   }
 
-  completeDelivery(orderId, newStatus) {
-    return fetch(`${this.baseUrl}/update`, {
+  completeDelivery(orderId, newStatus, signatureImage) {
+    console.log(signatureImage);
+
+    return fetch(`${this.baseUrl}/completeDelivery`, {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -149,17 +151,28 @@ export class OrderService {
       body: JSON.stringify({
         IdOrder: orderId,
         newStatus: newStatus,
+        signatureImageBase64String: signatureImage,
       }),
     })
       .then((response: any) => {
-        this.myDeliveredOrders.push(response);
-        this.emitMyDeliveredOrdersSubject();
+        // console.log(response);
+        // this.myDeliveredOrders.push(response);
+        // this.emitMyDeliveredOrdersSubject();
         const index = this.inDeliveryOrders.findIndex((o) => {
-          return o.id === response.order.id;
+          return o.id === orderId;
         });
         if (index !== -1) {
           this.inDeliveryOrders.splice(index, 1);
           this.emitInDeliveryOrdersSubject();
+        }
+
+        const indexProcessing = this.processingOrders.findIndex((o) => {
+          return o.id === orderId;
+        });
+
+        if (indexProcessing !== -1) {
+          this.processingOrders.splice(index, 1);
+          this.emitProcessingOrdersSubject();
         }
       })
       .catch((error) => console.error(error));

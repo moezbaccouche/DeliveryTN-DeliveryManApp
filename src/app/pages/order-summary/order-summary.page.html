@@ -117,7 +117,11 @@
 
       <ion-row>
         <ion-col style="text-align: center;">
-          <ion-button fill="outline" class="btSignature">
+          <ion-button
+            fill="outline"
+            class="btSignature"
+            (click)="presentPopoverSignature()"
+          >
             Signature
           </ion-button>
         </ion-col>

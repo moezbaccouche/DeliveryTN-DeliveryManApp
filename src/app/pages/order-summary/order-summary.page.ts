@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "src/app/services/order.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ToastController } from "@ionic/angular";
+import { ToastController, PopoverController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
+import { SignaturePage } from "src/app/signature/signature.page";
 
 declare var window;
 
@@ -25,11 +26,15 @@ export class OrderSummaryPage implements OnInit {
 
   deliveryManId;
 
+  signatureImage = "";
+
   constructor(
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private toastController: ToastController,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private popoverController: PopoverController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -66,26 +71,46 @@ export class OrderSummaryPage implements OnInit {
       });
   }
 
-  onComplete() {
+  completeDelivery() {
     //Call API to change status of order
     //If inDeliveryOrders.length == 0 then stop tracking
 
-    this.orderService.completeDelivery(this.orderId, 3).then(
-      () => {
-        if (this.inDeliveryOrders.length == 0) {
-          //Uncomment this line when the app is nearly finished
-          //this.stopBackgroundTracking();
+    this.orderService
+      .completeDelivery(this.orderId, 3, this.signatureImage)
+      .then(
+        () => {
+          if (this.inDeliveryOrders.length == 0) {
+            //Uncomment this line when the app is nearly finished
+            //this.stopBackgroundTracking();
+          }
+          this.router.navigate(["/tabs/tab2"]);
+          this.presentToast("Livraison terminée !", "success");
+        },
+        (error) => {
+          console.log(error);
+          this.presentToast("Une erreur est survenue !", "danger");
         }
-      },
-      (error) => {
-        console.log(error);
-        this.presentToast("Une erreur est survenue !", "danger");
-      }
-    );
+      );
   }
 
   stopBackgroundTracking() {
     window.app.backgroundGeolocation.stop();
+  }
+
+  async presentPopoverSignature(ev: any) {
+    const popover = await this.popoverController.create({
+      component: SignaturePage,
+      event: ev,
+      translucent: true,
+      componentProps: {
+        onclick: (imageBase64) => {
+          this.signatureImage = imageBase64;
+          this.completeDelivery();
+          popover.dismiss();
+        },
+      },
+    });
+    return await popover.present();
   }
 
   async presentToast(msg: string, type: string) {

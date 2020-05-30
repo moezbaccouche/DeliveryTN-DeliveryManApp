@@ -20,7 +20,7 @@ export class Tab3Page {
   readOnly: boolean;
 
   deliveryMan: any;
-  delivManId = 2;
+  delivManId = 1;
   deliveryManSubscription: Subscription;
   myDeliveredOrdersSubscription: Subscription;
 
@@ -37,7 +37,9 @@ export class Tab3Page {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.getDeliveryMan();
     this.deliveryManSubscription = this.deliverymanService.delivmanSubject.subscribe(
       (data) => {

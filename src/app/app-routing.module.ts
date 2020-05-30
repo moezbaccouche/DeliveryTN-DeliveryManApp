@@ -69,11 +69,12 @@ const routes: Routes = [
       import("./pages/forgot-password/forgot-password.module").then(
         (m) => m.ForgotPasswordPageModule
       ),
-  },  {
-    path: 'signature',
-    loadChildren: () => import('./signature/signature.module').then( m => m.SignaturePageModule)
   },
-
+  {
+    path: "signature",
+    loadChildren: () =>
+      import("./signature/signature.module").then((m) => m.SignaturePageModule),
+  },
 ];
 @NgModule({
   imports: [
