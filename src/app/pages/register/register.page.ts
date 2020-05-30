@@ -27,7 +27,10 @@ export class RegisterPage implements OnInit {
   long = null;
   sendingForm = false;
   emailExists = false;
+  registerDone = false;
   imageBase64String: string;
+
+  deliveryManEmail = "";
 
   constructor(
     private actionSheetController: ActionSheetController,
@@ -173,6 +176,8 @@ export class RegisterPage implements OnInit {
       },
     };
 
+    this.deliveryManEmail = this.formModel.value.email;
+
     this.sendingForm = true;
 
     this.deliveryManService.register(newDeliveryMan).subscribe(
@@ -182,11 +187,13 @@ export class RegisterPage implements OnInit {
             "Inscription réussie ! Un Email de confirmation vous a été envoyé.",
             "success"
           );
-          this.router.navigate(["/login"]);
+          this.emailExists = false;
+          this.registerDone = true;
+          //this.router.navigate(["/login"]);
         } else {
           response.errors.forEach((err) => {
-            switch (err.code) {
-              case "DuplicateUserName":
+            switch (err.error.code) {
+              case "DuplicatedEmail":
                 this.emailExists = true;
                 break;
 
@@ -198,12 +205,30 @@ export class RegisterPage implements OnInit {
         }
         this.sendingForm = false;
       },
-      (error) => {
-        this.presentToast("Un problème est survenue !", "danger");
+      (err) => {
+        if (err.error.code == "DuplicatedEmail") {
+          this.emailExists = true;
+        } else {
+          this.presentToast("Un problème est survenue !", "danger");
+        }
+
         this.sendingForm = false;
-        console.log(error);
+        console.log(err);
       }
     );
+  }
+
+  onResendEmail() {
+    this.deliveryManService
+      .resendVerificationEmail({ email: this.deliveryManEmail })
+      .subscribe(
+        () => {
+          this.presentToast("Email de vérification renvoyée !", "success");
+        },
+        (error) => {
+          this.presentToast("Un problème est survenue !", "danger");
+        }
+      );
   }
 
   async presentToast(msg: string, type: string) {

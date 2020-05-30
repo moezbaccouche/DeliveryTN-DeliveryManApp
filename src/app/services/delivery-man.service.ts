@@ -48,4 +48,8 @@ export class DeliveryManService {
   resetPassword(email) {
     return this.http.post(`${this.baseUrl}/resetPassword`, email);
   }
+
+  resendVerificationEmail(email) {
+    return this.http.post(`${this.baseUrl}/resendEmail`, email);
+  }
 }
