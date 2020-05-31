@@ -10,6 +10,8 @@ import {
   BackgroundGeolocationEvents,
 } from "@ionic-native/background-geolocation/ngx";
 import { DeliveryInfoService } from "./services/delivery-info.service";
+import { OneSignal } from "@ionic-native/onesignal/ngx";
+import { Router } from "@angular/router";
 
 declare var window;
 
@@ -27,7 +29,9 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private backgroundGeolocation: BackgroundGeolocation,
-    private deliveryInfoService: DeliveryInfoService
+    private deliveryInfoService: DeliveryInfoService,
+    private oneSignal: OneSignal,
+    private router: Router
   ) {
     this.initializeApp();
     this.locations = [];
@@ -42,6 +46,11 @@ export class AppComponent {
         this.statusBar.overlaysWebView(false);
         this.statusBar.styleLightContent();
       }
+
+      if (this.platform.is("cordova")) {
+        this.setupPush();
+      }
+
       const config: BackgroundGeolocationConfig = {
         desiredAccuracy: 10,
         stationaryRadius: 1,
@@ -76,5 +85,23 @@ export class AppComponent {
       //   });
       //   window.app = this;
     });
+  }
+
+  setupPush() {
+    this.oneSignal.startInit(
+      "4d92a6e0-c0bb-42b6-8bf1-01be7bc90286",
+      "636537591278"
+    );
+
+    this.oneSignal.inFocusDisplaying(
+      this.oneSignal.OSInFocusDisplayOption.None
+    );
+
+    this.oneSignal.handleNotificationReceived().subscribe((data) => {});
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      this.router.navigate(["/tabs"]);
+    });
+    this.oneSignal.endInit();
   }
 }

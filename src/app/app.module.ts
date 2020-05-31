@@ -28,6 +28,8 @@ import { AuthInterceptor } from "./auth/auth.interceptor";
 import { BackgroundGeolocation } from "@ionic-native/background-geolocation/ngx";
 import { IonicStorageModule } from "@ionic/storage";
 import { SignaturePage } from "./signature/signature.page";
+import { PushService } from "./services/push.service";
+import { OneSignal } from "@ionic-native/onesignal/ngx";
 
 registerLocaleData(localeFr, "en");
 
@@ -68,6 +70,8 @@ registerLocaleData(localeFr, "en");
     DeliveryInfoService,
     Camera,
     BackgroundGeolocation,
+    PushService,
+    OneSignal,
     //The following line makes a token check for all the services requests
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

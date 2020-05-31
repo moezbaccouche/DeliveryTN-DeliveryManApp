@@ -6,7 +6,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class OrderService {
-  private baseUrl: string = "http://192.168.1.9:51044/delivery-app/orders";
+  private baseUrl: string = "http://192.168.1.5:51044/delivery-app/orders";
 
   private pendingOrders: any[] = [];
   private processingOrders: any[] = [];

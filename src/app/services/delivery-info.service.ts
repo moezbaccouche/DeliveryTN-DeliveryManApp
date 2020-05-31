@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class DeliveryInfoService {
   constructor(private http: HttpClient) {}
   private baseUrl: string =
-    "http://192.168.1.9:51044/delivery-app/deliveryInfos";
+    "http://192.168.1.5:51044/delivery-app/deliveryInfos";
 
   getRoute(coordinates, accessToken) {
     var url =
