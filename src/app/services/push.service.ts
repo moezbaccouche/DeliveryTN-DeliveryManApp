@@ -27,6 +27,7 @@ export class PushService {
   }
 
   sendNotification(title: string, msg: string, playerId: string) {
+    console.log(playerId);
     let httpHeaders = new HttpHeaders({
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -48,7 +49,7 @@ export class PushService {
           fr: msg,
           en: msg,
         },
-      },
+        android_accent_color: "FF6E1C1C"},
       options
     );
   }
