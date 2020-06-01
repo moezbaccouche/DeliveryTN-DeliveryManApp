@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { ToastController, PopoverController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
 import { SignaturePage } from "src/app/signature/signature.page";
+import { PushService } from "src/app/services/push.service";
 
 declare var window;
 
@@ -34,7 +35,8 @@ export class OrderSummaryPage implements OnInit {
     private toastController: ToastController,
     private domSanitizer: DomSanitizer,
     private popoverController: PopoverController,
-    private router: Router
+    private router: Router,
+    private pushService: PushService
   ) {}
 
   ngOnInit() {
@@ -85,6 +87,21 @@ export class OrderSummaryPage implements OnInit {
           }
           this.router.navigate(["/tabs/tab2"]);
           this.presentToast("Livraison terminée !", "success");
+          this.pushService
+            .sendNotification(
+              "Commande livrée",
+              "Votre commande a été livrée.\nPensez à noter le livreur en accedant aux détails de la commande pour qu'on puisse améliorer la qualité de notre service.\n\nNous vous remercions de votre confiance et nous espérons vous revoir bientôt.",
+              this.order.client.playerId
+            )
+            .subscribe(
+              () => {},
+              (error) => {
+                this.presentToast(
+                  "Notification de l'utilisateur impossible !",
+                  "danger"
+                );
+              }
+            );
         },
         (error) => {
           console.log(error);

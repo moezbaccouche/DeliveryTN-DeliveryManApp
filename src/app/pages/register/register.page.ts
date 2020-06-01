@@ -160,75 +160,62 @@ export class RegisterPage implements OnInit {
     if (this.currentImage != "../../assets/defaultAvatar.jpg") {
       deliveryManImage = this.imageBase64String;
     }
-    this.sendingForm = true;
-    //Add Device OneSignal
-    this.pushService.addDevice().subscribe(
-      (response: any) => {
-        if (response.success) {
-          //Insert the new deliveryMan
-          var newDeliveryMan = {
-            firstName: this.formModel.value.firstName,
-            lastName: this.formModel.value.lastName,
-            phone: this.formModel.value.phone,
-            email: this.formModel.value.email,
-            password: this.formModel.value.password,
-            ImageBase64String: deliveryManImage,
-            dateOfBirth: this.formModel.value.dateOfBirth,
-            location: {
-              city: this.formModel.value.city,
-              zipCode: this.formModel.value.zipCode,
-              address: this.formModel.value.address,
-              lat: this.lat,
-              long: this.long,
-            },
-            playerId: response.id,
-          };
 
-          this.deliveryManEmail = this.formModel.value.email;
-
-          this.deliveryManService.register(newDeliveryMan).subscribe(
-            (response: any) => {
-              if (response.succeeded) {
-                this.presentToast(
-                  "Inscription réussie ! Un Email de confirmation vous a été envoyé.",
-                  "success"
-                );
-                this.emailExists = false;
-                this.registerDone = true;
-                //this.router.navigate(["/login"]);
-              } else {
-                response.errors.forEach((err) => {
-                  switch (err.error.code) {
-                    case "DuplicatedEmail":
-                      this.emailExists = true;
-                      break;
-
-                    default:
-                      this.presentToast(err.code, "danger");
-                      break;
-                  }
-                });
-              }
-              this.sendingForm = false;
-            },
-            (err) => {
-              if (err.error.code == "DuplicatedEmail") {
-                this.emailExists = true;
-              } else {
-                this.presentToast("Un problème est survenue !", "danger");
-              }
-
-              this.sendingForm = false;
-              console.log(err);
-            }
-          );
-        } else {
-          this.presentToast("Une erreur est survenue !", "danger");
-        }
+    //Insert the new deliveryMan
+    var newDeliveryMan = {
+      firstName: this.formModel.value.firstName,
+      lastName: this.formModel.value.lastName,
+      phone: this.formModel.value.phone,
+      email: this.formModel.value.email,
+      password: this.formModel.value.password,
+      ImageBase64String: deliveryManImage,
+      dateOfBirth: this.formModel.value.dateOfBirth,
+      location: {
+        city: this.formModel.value.city,
+        zipCode: this.formModel.value.zipCode,
+        address: this.formModel.value.address,
+        lat: this.lat,
+        long: this.long,
       },
-      (error) => {
-        this.presentToast("Une erreur est survenue !", "danger");
-        console.log(error);
+    };
+
+    this.deliveryManEmail = this.formModel.value.email;
+    this.sendingForm = true;
+
+    this.deliveryManService.register(newDeliveryMan).subscribe(
+      (response: any) => {
+        if (response.succeeded) {
+          this.presentToast(
+            "Inscription réussie ! Un Email de confirmation vous a été envoyé.",
+            "success"
+          );
+          this.emailExists = false;
+          this.registerDone = true;
+          //this.router.navigate(["/login"]);
+        } else {
+          response.errors.forEach((err) => {
+            switch (err.error.code) {
+              case "DuplicatedEmail":
+                this.emailExists = true;
+                break;
+
+              default:
+                this.presentToast(err.code, "danger");
+                break;
+            }
+          });
+        }
+        this.sendingForm = false;
+      },
+      (err) => {
+        if (err.error.code == "DuplicatedEmail") {
+          this.emailExists = true;
+        } else {
+          this.presentToast("Un problème est survenue !", "danger");
+        }
+
+        this.sendingForm = false;
+        console.log(err);
       }
     );
   }

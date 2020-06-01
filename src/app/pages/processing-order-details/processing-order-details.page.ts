@@ -14,6 +14,7 @@ import { PopoverMissingProductsComponent } from "src/app/components/popover-miss
 import { PopoverBoughtProductComponent } from "src/app/components/popover-bought-product/popover-bought-product.component";
 import { PopoverAbortBuyingProductComponent } from "src/app/components/popover-abort-buying-product/popover-abort-buying-product.component";
 import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
+import { PushService } from "src/app/services/push.service";
 
 declare var window;
 
@@ -56,7 +57,8 @@ export class ProcessingOrderDetailsPage implements OnInit {
     private deliveryInfoService: DeliveryInfoService,
     private popoverController: PopoverController,
     private router: Router,
-    private launchNavigator: LaunchNavigator
+    private launchNavigator: LaunchNavigator,
+    private pushService: PushService
   ) {
     mapboxgl.accessToken = mapToken;
   }
@@ -242,6 +244,24 @@ export class ProcessingOrderDetailsPage implements OnInit {
           this.order.status = 2;
           this.order.statusString = "En cours de livraison";
           this.isUpdating = false;
+
+          console.log(response);
+
+          this.pushService
+            .sendNotification(
+              "Commande en cours de livraison",
+              `Votre commande a été traitée. Elle est maintenant en cours de livraison.\n\nVous pouvez suivre le livreur sur la carte en accedant à l'application.`,
+              this.order.client.playerId
+            )
+            .subscribe(
+              () => {},
+              (error) => {
+                this.presentToast(
+                  "Notification de l'utilisateur impossible !",
+                  "danger"
+                );
+              }
+            );
 
           //Uncomment this line when the app is nearly finished
           //this.startBackgroundTracking();

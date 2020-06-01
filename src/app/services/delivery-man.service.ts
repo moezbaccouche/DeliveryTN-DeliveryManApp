@@ -52,4 +52,11 @@ export class DeliveryManService {
   resendVerificationEmail(email) {
     return this.http.post(`${this.baseUrl}/resendEmail`, email);
   }
+
+  setPlayerId(deliveryManId: number, playerId: string) {
+    return this.http.post(`${this.baseUrl}/setPlayerId`, {
+      deliveryManId: deliveryManId,
+      playerId: playerId,
+    });
+  }
 }

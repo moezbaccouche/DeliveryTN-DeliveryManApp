@@ -280,7 +280,7 @@
 <ion-footer class="ion-no-border" *ngIf="!registerDone">
   <ion-toolbar>
     <ion-button
-      [disabled]="!formModel.valid || long == null || lat == null"
+      [disabled]="!formModel.valid || long == null || lat == null || sendingForm"
       expand="block"
       class="inscri"
       shape="round"

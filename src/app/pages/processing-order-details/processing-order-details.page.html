@@ -122,14 +122,14 @@
             ></ion-checkbox>
           </ion-col>
           <!-- Is displayed only when the item has not been bought -->
-          <ion-col size="2" *ngIf="product.notBought">
+          <ion-col size="2" *ngIf="product.notBought && order.status == 2">
             <span
               style="color: #d9534f; font-size: 11px;"
               (click)="presentBoughtProductPopover(product.id, product.amount)"
               ><strong>Non acheté</strong></span
             >
           </ion-col>
-          <ion-col size="2" *ngIf="!product.notBought">
+          <ion-col size="2" *ngIf="!product.notBought && order.status == 2">
             <ion-button
               fill="clear"
               [disabled]="updatingProducts"

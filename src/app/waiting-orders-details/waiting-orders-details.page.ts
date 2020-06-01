@@ -9,6 +9,7 @@ import * as mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DeliveryInfoService } from "../services/delivery-info.service";
+import { PushService } from "../services/push.service";
 
 declare var window;
 
@@ -46,7 +47,8 @@ export class WaitingOrdersDetailsPage implements OnInit {
     private domSanitizer: DomSanitizer,
     private geolocation: Geolocation,
     private deliveryInfoService: DeliveryInfoService,
-    private router: Router
+    private router: Router,
+    private pushService: PushService
   ) {
     mapboxgl.accessToken = mapToken;
   }
@@ -186,6 +188,22 @@ export class WaitingOrdersDetailsPage implements OnInit {
             "Vous avez accepté de livrer la commande !",
             "success"
           );
+
+          this.pushService
+            .sendNotification(
+              "Commande acceptée",
+              "Votre commande a été acceptée par un livreur. Elle est maintenant en cours de traitement.\n",
+              this.order.client.playerId
+            )
+            .subscribe(
+              () => {},
+              (error) => {
+                this.presentToast(
+                  "Notification de l'utilisateur impossible !",
+                  "danger"
+                );
+              }
+            );
         },
         (error) => {
           console.log(error);

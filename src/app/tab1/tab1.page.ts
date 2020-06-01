@@ -4,6 +4,8 @@ import { Subscription } from "rxjs";
 import { DeliveryManService } from "../services/delivery-man.service";
 import { ToastController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
+import { OneSignal } from "@ionic-native/onesignal/ngx";
+import { Router } from "@angular/router";
 
 declare var window;
 @Component({
@@ -33,7 +35,9 @@ export class Tab1Page implements OnInit {
     private orderService: OrderService,
     private deliveryManService: DeliveryManService,
     private toastController: ToastController,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private oneSignal: OneSignal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +64,8 @@ export class Tab1Page implements OnInit {
       }
     );
     this.deliveryManService.emitDeliveryManSubject();
+
+    this.setupPush();
   }
 
   getDeliveryMan() {
@@ -124,6 +130,36 @@ export class Tab1Page implements OnInit {
       this.starFour = 1;
       this.starFive = 1;
     }
+  }
+
+  setupPush() {
+    this.oneSignal.startInit(
+      "4d92a6e0-c0bb-42b6-8bf1-01be7bc90286",
+      "636537591278"
+    );
+
+    this.oneSignal.inFocusDisplaying(
+      this.oneSignal.OSInFocusDisplayOption.None
+    );
+
+    this.oneSignal.handleNotificationReceived().subscribe((data) => {});
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      this.router.navigate(["/tabs"]);
+    });
+    this.oneSignal.endInit();
+    this.oneSignal.getIds().then((response) => {
+      //Insert or update the delivery man player ID
+      this.deliveryManService
+        .setPlayerId(this.deliveryManId, response.userId)
+        .subscribe(
+          () => {},
+          (error) => {
+            this.presentToast("Une erreur est survenue !", "danger");
+            console.log(error);
+          }
+        );
+    });
   }
 
   async presentToast(msg: string, type: string) {
