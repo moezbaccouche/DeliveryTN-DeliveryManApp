@@ -49,7 +49,8 @@ export class PushService {
           fr: msg,
           en: msg,
         },
-        android_accent_color: "FF6E1C1C"},
+        android_accent_color: "FF6E1C1C",
+      },
       options
     );
   }
