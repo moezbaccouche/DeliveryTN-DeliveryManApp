@@ -20,7 +20,7 @@ export class Tab3Page {
   readOnly: boolean;
 
   deliveryMan: any;
-  delivManId = 1;
+  delivManId;
   deliveryManSubscription: Subscription;
   myDeliveredOrdersSubscription: Subscription;
 
@@ -35,7 +35,9 @@ export class Tab3Page {
     private orderService: OrderService,
     private popoverController: PopoverController,
     private router: Router
-  ) {}
+  ) {
+    this.delivManId = localStorage.getItem("idDeliveryMan");
+  }
 
   ngOnInit() {}
 

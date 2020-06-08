@@ -37,7 +37,9 @@ export class OrderSummaryPage implements OnInit {
     private popoverController: PopoverController,
     private router: Router,
     private pushService: PushService
-  ) {}
+  ) {
+    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+  }
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe((params) => {
@@ -83,7 +85,7 @@ export class OrderSummaryPage implements OnInit {
         () => {
           if (this.inDeliveryOrders.length == 0) {
             //Uncomment this line when the app is nearly finished
-            //this.stopBackgroundTracking();
+            this.stopBackgroundTracking();
           }
           this.router.navigate(["/tabs/tab2"]);
           this.presentToast("Livraison terminée !", "success");

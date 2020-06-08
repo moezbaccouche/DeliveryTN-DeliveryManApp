@@ -59,27 +59,27 @@ export class AppComponent {
 
       //Uncomment the following lines when the app is nearly finished
 
-      //   this.backgroundGeolocation.configure(config).then(() => {
-      //     this.backgroundGeolocation
-      //       .on(BackgroundGeolocationEvents.location)
-      //       .subscribe((location: BackgroundGeolocationResponse) => {
-      //         //Call the api service to update currentLocation
+      this.backgroundGeolocation.configure(config).then(() => {
+        this.backgroundGeolocation
+          .on(BackgroundGeolocationEvents.location)
+          .subscribe((location: BackgroundGeolocationResponse) => {
+            //Call the api service to update currentLocation
 
-      //         this.deliveryInfoService
-      //           .updateCurrenLocation(
-      //             location.latitude,
-      //             location.longitude,
-      //             this.deliveryManId
-      //           )
-      //           .subscribe(
-      //             () => {},
-      //             (error) => {
-      //               console.log(error);
-      //             }
-      //           );
-      //       });
-      //   });
-      //   window.app = this;
+            this.deliveryInfoService
+              .updateCurrenLocation(
+                location.latitude,
+                location.longitude,
+                this.deliveryManId
+              )
+              .subscribe(
+                () => {},
+                (error) => {
+                  console.log(error);
+                }
+              );
+          });
+      });
+      window.app = this;
     });
   }
 }

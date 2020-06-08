@@ -12,7 +12,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class HistoriquePage implements OnInit {
   myDeliveredOrders = [];
-  deliveryManId = 1;
+  deliveryManId;
   myDeliveredOrdersSub: Subscription;
 
   isLoading = true;
@@ -22,7 +22,9 @@ export class HistoriquePage implements OnInit {
     private toastController: ToastController,
     private popoverController: PopoverController,
     private domSanitizer: DomSanitizer
-  ) {}
+  ) {
+    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+  }
 
   ngOnInit() {
     this.getMyDeliveredOrders();

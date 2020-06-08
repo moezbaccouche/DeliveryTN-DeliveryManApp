@@ -11,7 +11,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class Tab2Page implements OnInit {
   processingOrders = [];
-  deliveryManId = 1;
+  deliveryManId;
   isLoading = true;
 
   processingOrdersSubscription: Subscription;
@@ -20,7 +20,9 @@ export class Tab2Page implements OnInit {
     private orderService: OrderService,
     private toastController: ToastController,
     private domSanitizer: DomSanitizer
-  ) {}
+  ) {
+    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+  }
 
   ngOnInit(): void {
     this.getDeliveryManProcessingOrders();

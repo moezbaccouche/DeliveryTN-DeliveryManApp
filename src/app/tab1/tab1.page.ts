@@ -19,7 +19,7 @@ export class Tab1Page implements OnInit {
   inDeliveryOrdersSubscription: Subscription;
   inDeliveryOrders = [];
 
-  deliveryManId = 1;
+  deliveryManId;
   isLoading = true;
 
   deliveryMan;
@@ -38,7 +38,9 @@ export class Tab1Page implements OnInit {
     private domSanitizer: DomSanitizer,
     private oneSignal: OneSignal,
     private router: Router
-  ) {}
+  ) {
+    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+  }
 
   ngOnInit(): void {
     this.getInDeliveryOrders();
@@ -48,11 +50,11 @@ export class Tab1Page implements OnInit {
 
         //Uncomment these lines when the app is nearly finished
 
-        // if (this.inDeliveryOrders.length > 0) {
-        //   this.startBackgroundTracking();
-        // } else {
-        //   this.stopBackgroundTracking();
-        // }
+        if (this.inDeliveryOrders.length > 0) {
+          this.startBackgroundTracking();
+        } else {
+          this.stopBackgroundTracking();
+        }
       }
     );
     this.orderService.emitInDeliveryOrdersSubject();

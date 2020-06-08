@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
-import { mapToken } from "../../assets/mapToken";
+import { mapToken } from "../../assets/maptoken";
 import * as mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
@@ -34,7 +34,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
 
   buttonDisabled = false;
   isAccepted = false;
-  deliveryManId = 1;
+  deliveryManId;
 
   private map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v11";
@@ -51,6 +51,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
     private pushService: PushService
   ) {
     mapboxgl.accessToken = mapToken;
+    this.deliveryManId = localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit() {

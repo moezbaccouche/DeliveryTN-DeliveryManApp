@@ -5,7 +5,7 @@ import { OrderService } from "src/app/services/order.service";
 import { ToastController, PopoverController } from "@ionic/angular";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CallNumber } from "@ionic-native/call-number/ngx";
-import { mapToken } from "../../../assets/mapToken";
+import { mapToken } from "../../../assets/maptoken";
 import * as mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
@@ -264,7 +264,7 @@ export class ProcessingOrderDetailsPage implements OnInit {
             );
 
           //Uncomment this line when the app is nearly finished
-          //this.startBackgroundTracking();
+          this.startBackgroundTracking();
         },
         (error) => {
           console.log(error);
