@@ -39,7 +39,7 @@ export class Tab1Page implements OnInit {
     private oneSignal: OneSignal,
     private router: Router
   ) {
-    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+    this.deliveryManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit(): void {

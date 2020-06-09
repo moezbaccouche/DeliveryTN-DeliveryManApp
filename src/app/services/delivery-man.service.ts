@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class DeliveryManService {
-  private baseUrl: string = "http://192.168.1.5:51044/delivery-app/deliveryMen";
+  private baseUrl: string = "http://192.168.1.4:51044/delivery-app/deliveryMen";
   private deliveryMan: any;
   delivmanSubject = new Subject<any>();
 
@@ -54,6 +54,8 @@ export class DeliveryManService {
   }
 
   setPlayerId(deliveryManId: number, playerId: string) {
+    console.log(deliveryManId);
+    console.log(playerId);
     return this.http.post(`${this.baseUrl}/setPlayerId`, {
       deliveryManId: deliveryManId,
       playerId: playerId,

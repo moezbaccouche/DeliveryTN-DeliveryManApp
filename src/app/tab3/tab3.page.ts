@@ -36,7 +36,7 @@ export class Tab3Page {
     private popoverController: PopoverController,
     private router: Router
   ) {
-    this.delivManId = localStorage.getItem("idDeliveryMan");
+    this.delivManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit() {}

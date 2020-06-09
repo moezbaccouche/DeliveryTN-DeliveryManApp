@@ -23,7 +23,7 @@ export class HistoriquePage implements OnInit {
     private popoverController: PopoverController,
     private domSanitizer: DomSanitizer
   ) {
-    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+    this.deliveryManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit() {

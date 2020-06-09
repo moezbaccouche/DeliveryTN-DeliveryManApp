@@ -21,7 +21,7 @@ export class Tab2Page implements OnInit {
     private toastController: ToastController,
     private domSanitizer: DomSanitizer
   ) {
-    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+    this.deliveryManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit(): void {

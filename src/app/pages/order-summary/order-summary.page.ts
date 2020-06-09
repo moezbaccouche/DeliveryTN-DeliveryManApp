@@ -38,7 +38,7 @@ export class OrderSummaryPage implements OnInit {
     private router: Router,
     private pushService: PushService
   ) {
-    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+    this.deliveryManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit() {

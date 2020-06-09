@@ -51,7 +51,7 @@ export class WaitingOrdersDetailsPage implements OnInit {
     private pushService: PushService
   ) {
     mapboxgl.accessToken = mapToken;
-    this.deliveryManId = localStorage.getItem("idDeliveryMan");
+    this.deliveryManId = +localStorage.getItem("idDeliveryMan");
   }
 
   ngOnInit() {
