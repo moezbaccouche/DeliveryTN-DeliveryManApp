@@ -47,6 +47,9 @@ export class ProcessingOrderDetailsPage implements OnInit {
   boughtProducts = [];
   missingProducts = [];
 
+  //For demo purposes only
+  // deliveryManCoords = [10.604019, 35.8326119];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private orderService: OrderService,
@@ -112,8 +115,10 @@ export class ProcessingOrderDetailsPage implements OnInit {
       container: "mapContainer",
       style: this.style,
       zoom: 11,
+      //For demo purposes only
+      // center: this.deliveryManCoords,
+
       center: [this.deliveryManLng, this.deliveryManLat],
-      //center : [long, lat]
     };
     this.map = new mapboxgl.Map(conf);
     this.markerClient = new mapboxgl.Marker()
@@ -147,7 +152,11 @@ export class ProcessingOrderDetailsPage implements OnInit {
       this.order.client.location.lat,
     ];
 
+    // For Demo purposes only
+    // const coordsDeliveryMan = this.deliveryManCoords;
+
     const coordsDeliveryMan = [this.deliveryManLng, this.deliveryManLat];
+
     const coords = [coordsDeliveryMan, coordsClients];
     var newCoords = coords.join(";");
 
@@ -201,13 +210,22 @@ export class ProcessingOrderDetailsPage implements OnInit {
     this.marker = new mapboxgl.Marker(el)
       .setLngLat([this.deliveryManLng, this.deliveryManLat])
       .addTo(this.map);
+
+    //For demo purposes only
+    // this.marker = new mapboxgl.Marker(el)
+    //   .setLngLat(this.deliveryManCoords)
+    //   .addTo(this.map);
   }
 
   onOpenMap() {
+    //Changed for demo purposes
+
     this.launchNavigator
       .navigate([
         this.order.client.location.lat,
         this.order.client.location.long,
+        // 35.8326119,
+        // 10.604019,
       ])
       .then(
         (success) => {

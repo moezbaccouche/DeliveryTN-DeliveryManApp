@@ -14,20 +14,31 @@
   <div *ngIf="deliveryMan != null">
     <ion-card>
       <ion-grid>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="3">
+        <ion-row>
+          <ion-col size="12" style="text-align: center;">
             <img
               [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' +deliveryMan.imageBase64)"
               alt="Img Livreur"
               class="imgCircle"
             />
           </ion-col>
-          <ion-col size="9" style="font-size: 16px;">
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col
+            size="12"
+            style="font-size: 20px; text-align: center; color: black;"
+          >
             {{ deliveryMan.firstName }} {{ deliveryMan.lastName }}
           </ion-col>
         </ion-row>
         <ion-row *ngIf="deliveryMan.rating != 0">
-          <ion-col style="color: rgb(117, 39, 46);">
+          <ion-col
+            style="
+              color: rgb(117, 39, 46);
+              text-align: center;
+              font-size: 18px;
+            "
+          >
             <div>
               Note Moyenne :
               <!-- The ternary condition means : if the starScore == 0 then set the icon star outline -->

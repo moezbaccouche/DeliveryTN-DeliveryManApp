@@ -39,8 +39,11 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      setTimeout(() => {
+        this.splashScreen.hide();
+      }, 1000);
+
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
 
       if (this.platform.is("android")) {
         this.statusBar.overlaysWebView(false);
@@ -64,7 +67,7 @@ export class AppComponent {
           .on(BackgroundGeolocationEvents.location)
           .subscribe((location: BackgroundGeolocationResponse) => {
             //Call the api service to update currentLocation
-
+            /* Commented for demo purposes */
             this.deliveryInfoService
               .updateCurrenLocation(
                 location.latitude,

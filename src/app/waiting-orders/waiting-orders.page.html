@@ -60,9 +60,7 @@
             </ion-col>
             <ion-col size="10">
               <ion-item lines="none">
-                <ion-label style="margin-left: 10px;"
-                  >{{ order.client.fullName }}</ion-label
-                >
+                <ion-label>{{ order.client.fullName }}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -83,18 +81,14 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col offset="8">
-              <div>
-                <ion-item lines="none">
-                  <ion-button
-                    class="btDetails"
-                    fill="clear"
-                    [routerLink]="['/waiting-orders-details', order.orderId]"
-                  >
-                    Détails
-                  </ion-button>
-                </ion-item>
-              </div>
+            <ion-col size="12" style="text-align: end; font-size: 16px;">
+              <ion-button
+                class="btDetails"
+                fill="clear"
+                [routerLink]="['/waiting-orders-details', order.orderId]"
+              >
+                Détails
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

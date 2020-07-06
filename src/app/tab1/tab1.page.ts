@@ -136,7 +136,7 @@ export class Tab1Page implements OnInit {
 
   setupPush() {
     this.oneSignal.startInit(
-      "4d92a6e0-c0bb-42b6-8bf1-01be7bc90286",
+      "1d0cf02e-3eda-4ff5-b9a1-74c3ccf33dfb",
       "636537591278"
     );
 

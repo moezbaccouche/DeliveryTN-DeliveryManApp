@@ -36,6 +36,9 @@ export class WaitingOrdersDetailsPage implements OnInit {
   isAccepted = false;
   deliveryManId;
 
+  //For demo purposes only
+  // deliveryManCoords = [10.604019, 35.8326119];
+
   private map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/outdoors-v11";
   markerClient;
@@ -81,8 +84,10 @@ export class WaitingOrdersDetailsPage implements OnInit {
       container: "map",
       style: this.style,
       zoom: 14,
+      //For demo purposes only
+      // center: this.deliveryManCoords,
+
       center: [this.deliveryManLng, this.deliveryManLat],
-      //center : [long, lat]
     };
     this.map = new mapboxgl.Map(conf);
     this.markerClient = new mapboxgl.Marker()
@@ -115,6 +120,9 @@ export class WaitingOrdersDetailsPage implements OnInit {
       this.order.client.location.long,
       this.order.client.location.lat,
     ];
+
+    // For Demo purposes only
+    // const coordsDeliveryMan = this.deliveryManCoords;
 
     const coordsDeliveryMan = [this.deliveryManLng, this.deliveryManLat];
     const coords = [coordsDeliveryMan, coordsClients];
@@ -171,6 +179,11 @@ export class WaitingOrdersDetailsPage implements OnInit {
     this.marker = new mapboxgl.Marker(el)
       .setLngLat([this.deliveryManLng, this.deliveryManLat])
       .addTo(this.map);
+
+    //For demo purposes only
+    // this.marker = new mapboxgl.Marker(el)
+    //   .setLngLat(this.deliveryManCoords)
+    //   .addTo(this.map);
   }
 
   onAcceptOrderDelivery() {

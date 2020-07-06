@@ -41,12 +41,12 @@ export class SignaturePage implements OnInit, AfterViewInit {
     const canvasPosition = this.canvasElement.getBoundingClientRect();
 
     //On device
-    // this.saveX = ev.touches[0].pageX - canvasPosition.x;
-    // this.saveY = ev.touches[0].pageY - canvasPosition.y;
+    this.saveX = ev.touches[0].pageX - canvasPosition.x;
+    this.saveY = ev.touches[0].pageY - canvasPosition.y;
 
     //On Navigator
-    this.saveX = ev.pageX - canvasPosition.x;
-    this.saveY = ev.pageY - canvasPosition.y;
+    // this.saveX = ev.pageX - canvasPosition.x;
+    // this.saveY = ev.pageY - canvasPosition.y;
   }
 
   endDrawing() {
@@ -59,12 +59,12 @@ export class SignaturePage implements OnInit, AfterViewInit {
     let ctx = this.canvasElement.getContext("2d");
 
     //On device
-    // let currentX = ev.touches[0].pageX - canvasPosition.x;
-    // let currentY = ev.touches[0].pageY - canvasPosition.y;
+    let currentX = ev.touches[0].pageX - canvasPosition.x;
+    let currentY = ev.touches[0].pageY - canvasPosition.y;
 
     //On Navigator
-    let currentX = ev.pageX - canvasPosition.x;
-    let currentY = ev.pageY - canvasPosition.y;
+    // let currentX = ev.pageX - canvasPosition.x;
+    // let currentY = ev.pageY - canvasPosition.y;
 
     ctx.lineJoin = "round";
     ctx.strokeStyle = this.seletectedColor;

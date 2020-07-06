@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class DeliveryManService {
-  private baseUrl: string = "http://192.168.1.4:51044/delivery-app/deliveryMen";
+  private baseUrl: string = "http://192.168.1.3:51044/delivery-app/deliveryMen";
   private deliveryMan: any;
   delivmanSubject = new Subject<any>();
 
